@@ -2,7 +2,7 @@
 
 namespace Lib.QueryBuilder.Verbs;
 
-public interface IDelete : IWhere
+public interface IDelete
 {
-    public IDelete Delete();
+    public IWhere Delete();
 }

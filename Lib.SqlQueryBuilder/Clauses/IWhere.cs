@@ -1,6 +1,6 @@
 ﻿namespace Lib.QueryBuilder.Clauses;
 
-public interface IWhere : IGroupBy, IOrderBy
+public interface IWhere
 {
-    public IWhere Where();
+    public IPostWhere Where();
 }

@@ -2,7 +2,7 @@
 
 namespace Lib.QueryBuilder.Verbs;
 
-public interface IUpdate : ISet
+public interface IUpdate
 {
-    public IUpdate Update();
+    public ISet Update();
 }

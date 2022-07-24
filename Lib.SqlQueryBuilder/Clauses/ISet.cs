@@ -1,7 +1,6 @@
 ﻿namespace Lib.QueryBuilder.Clauses;
 
-public interface ISet : IWhere
+public interface ISet
 {
-    public ISet Set();
-    public ISet Set(string[] columns);
+    public IValues Set(string[] columns);
 }

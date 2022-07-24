@@ -2,7 +2,7 @@
 
 namespace Lib.QueryBuilder.Verbs;
 
-public interface ISelect : IFrom
+public interface ISelect
 {
-    public ISelect Select();
+    public IFrom Select();
 }

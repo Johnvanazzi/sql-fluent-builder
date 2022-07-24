@@ -2,7 +2,7 @@
 
 namespace Lib.QueryBuilder.Verbs;
 
-public interface IInsert : IValues
+public interface IInsert
 {
-    public IInsert Insert();
+    public IValues Insert();
 }
