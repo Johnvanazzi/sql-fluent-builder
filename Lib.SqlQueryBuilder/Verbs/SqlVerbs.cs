@@ -42,11 +42,6 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
         return this;
     }
     
-    public IValues Insert()
-    {
-        throw new NotImplementedException();
-    }
-
     public IWhere Delete(string table)
     {
         Sb.Append($"DELETE FROM [{table}]");
@@ -57,6 +52,51 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
     public IWhere Delete(string schema, string table)
     {
         Sb.Append($"DELETE FROM [{schema}].[{table}]");
+
+        return this;
+    }
+
+    public IValues Insert(string schema, string table, string[] columns)
+    {
+        Sb.Append($"INSERT INTO [{schema}].[{table}] ( ");
+
+
+        foreach (string col in columns)
+        {
+            Sb.Append($"{col}, ");
+        }
+
+        Sb.Remove(Sb.Length - 3, 2);
+        Sb.Append(')');
+        
+        return this;
+    }
+
+    public IValues Insert(string schema, string table)
+    {
+        Sb.Append($"INSERT INTO [{schema}].[{table}]");
+
+        return this;
+    }
+
+    public IValues Insert(string table, string[] columns)
+    {
+        Sb.Append($"INSERT INTO [{table}] (");
+        
+        foreach (string col in columns)
+        {
+            Sb.Append($"{col}, ");
+        }
+
+        Sb.Remove(Sb.Length - 3, 2);
+        Sb.Append(')');
+
+        return this;
+    }
+
+    public IValues Insert(string table)
+    {
+        Sb.Append($"INSERT INTO [{table}]");
 
         return this;
     }
