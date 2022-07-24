@@ -1,11 +1,11 @@
-﻿using Lib.QueryBuilder.Clauses;
+﻿using System.Text;
 using Lib.QueryBuilder.Verbs;
 
 namespace Lib.QueryBuilder;
 
 public class Query : SqlVerbs
 {
-    private string _sql = "";
+    public string ToSql() => Sb.ToString();
 }
 
 public class Test

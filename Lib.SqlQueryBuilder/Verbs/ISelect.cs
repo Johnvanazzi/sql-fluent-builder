@@ -5,4 +5,5 @@ namespace Lib.QueryBuilder.Verbs;
 public interface ISelect
 {
     public IFrom Select();
+    public IFrom Select(params string[] columns);
 }

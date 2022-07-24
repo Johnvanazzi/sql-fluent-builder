@@ -1,15 +1,23 @@
-﻿namespace Lib.QueryBuilder.Clauses;
+﻿using System.Text;
+
+namespace Lib.QueryBuilder.Clauses;
 
 public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
 {
+    protected readonly StringBuilder Sb = new();
+    
     public IWhere From(string schema, string table)
     {
-        throw new NotImplementedException();
+        Sb.Append($" FROM {schema}.{table}");
+
+        return this;
     }
 
     public IWhere From(string table)
     {
-        throw new NotImplementedException();
+        Sb.Append($" FROM {table}");
+
+        return this;
     }
 
     public IValues Set()

@@ -6,7 +6,23 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
 {
     public IFrom Select()
     {
-        throw new NotImplementedException();
+        Sb.Append("SELECT *");
+
+        return this;
+    }
+
+    public IFrom Select(params string[] columns)
+    {
+        Sb.Append("SELECT ");
+
+        foreach (string col in columns)
+        {
+            Sb.Append($"{col}, ");
+        }
+
+        Sb.Remove(Sb.Length - 3, 2);
+
+        return this;
     }
 
     public ISet Update()
