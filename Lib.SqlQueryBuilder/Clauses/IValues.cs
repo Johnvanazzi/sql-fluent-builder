@@ -2,5 +2,5 @@
 
 public interface IValues
 {
-    public IValues Values();
+    public IValues Values(object?[] values);
 }

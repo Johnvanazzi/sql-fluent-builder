@@ -45,8 +45,20 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
         throw new NotImplementedException();
     }
 
-    public IValues Values()
+    public IValues Values(object?[] values)
     {
-        throw new NotImplementedException();
+        if (values.Length < 1)
+            throw new ArgumentException("Array of values is empty");
+
+        Sb.Append(" VALUES (");
+
+        foreach (object? value in values)
+        {
+            Sb.Append($"{Converter.ObjectToSql(value)}, ");
+        }
+
+        Sb.Remove(Sb.Length - 2, 2).Append(')');
+
+        return this;
     }
 }
