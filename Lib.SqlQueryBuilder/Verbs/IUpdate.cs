@@ -4,5 +4,6 @@ namespace Lib.QueryBuilder.Verbs;
 
 public interface IUpdate
 {
-    public ISet Update();
+    public ISet Update(string table);
+    public ISet Update(string schema, string table);
 }

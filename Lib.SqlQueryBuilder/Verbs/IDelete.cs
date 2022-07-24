@@ -4,5 +4,6 @@ namespace Lib.QueryBuilder.Verbs;
 
 public interface IDelete
 {
-    public IWhere Delete();
+    public IWhere Delete(string table);
+    public IWhere Delete(string schema, string table);
 }

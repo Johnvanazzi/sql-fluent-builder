@@ -13,6 +13,9 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
 
     public IFrom Select(params string[] columns)
     {
+        if (columns.Length < 1)
+            throw new ArgumentException("Array of columns must not be empty");
+
         Sb.Append("SELECT ");
 
         foreach (string col in columns)
@@ -25,18 +28,36 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
         return this;
     }
 
-    public ISet Update()
+    public ISet Update(string table)
     {
-        throw new NotImplementedException();
+        Sb.Append($"UPDATE [{table}]");
+
+        return this;
     }
 
+    public ISet Update(string schema, string table)
+    {
+        Sb.Append($"UPDATE [{schema}].[{table}]");
+
+        return this;
+    }
+    
     public IValues Insert()
     {
         throw new NotImplementedException();
     }
 
-    public IWhere Delete()
+    public IWhere Delete(string table)
     {
-        throw new NotImplementedException();
+        Sb.Append($"DELETE FROM [{table}]");
+
+        return this;
+    }
+    
+    public IWhere Delete(string schema, string table)
+    {
+        Sb.Append($"DELETE FROM [{schema}].[{table}]");
+
+        return this;
     }
 }
