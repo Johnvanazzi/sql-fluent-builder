@@ -61,4 +61,6 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
 
         return this;
     }
+
+    public string ToSql() => Sb.Append(';').ToString();
 }

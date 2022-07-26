@@ -1,6 +1,6 @@
 ﻿namespace Lib.QueryBuilder.Clauses;
 
-public interface IWhere
+public interface IWhere : IQuery
 {
     public IPostWhere Where();
 }

@@ -1,6 +1,6 @@
 ﻿namespace Lib.QueryBuilder.Clauses;
 
-public interface IGroupBy
+public interface IGroupBy : IQuery
 {
     public IGroupBy GroupBy();
 }

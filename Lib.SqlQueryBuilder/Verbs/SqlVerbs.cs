@@ -23,7 +23,7 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
             Sb.Append($"{col}, ");
         }
 
-        Sb.Remove(Sb.Length - 3, 2);
+        Sb.Remove(Sb.Length - 2, 2);
 
         return this;
     }
