@@ -1,3 +1,4 @@
+using System;
 using Lib.QueryBuilder;
 using NUnit.Framework;
 
@@ -40,6 +41,9 @@ public class Tests
         _query.Clear();
         raw = _query.Select(_columns).ToSql();
         Assert.AreEqual($"SELECT {_columns[0]}, {_columns[1]}, {_columns[2]};", raw);
+        
+        _query.Clear();
+        Assert.Catch<ArgumentException>(() => _query.Select(Array.Empty<string>()));
     }
 
     [Test]
