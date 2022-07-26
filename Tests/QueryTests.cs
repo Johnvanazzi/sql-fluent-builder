@@ -51,10 +51,18 @@ public class Tests
     {
         _query.Clear();
         string raw = _query.Select().From(_table).ToSql();
-        Assert.AreEqual($"SELECT * FROM {_table};", raw);
+        Assert.AreEqual($"SELECT * FROM [{_table}];", raw);
+        
+        _query.Clear();
+        raw = _query.Select().From(_schema, _table).ToSql();
+        Assert.AreEqual($"SELECT * FROM [{_schema}].[{_table}];", raw);
         
         _query.Clear();
         raw = _query.Select(_columns).From(_table).ToSql();
-        Assert.AreEqual($"SELECT {_columns[0]}, {_columns[1]}, {_columns[2]} FROM {_table};", raw);
+        Assert.AreEqual($"SELECT {_columns[0]}, {_columns[1]}, {_columns[2]} FROM [{_table}];", raw);
+        
+        _query.Clear();
+        raw = _query.Select(_columns).From(_schema, _table).ToSql();
+        Assert.AreEqual($"SELECT {_columns[0]}, {_columns[1]}, {_columns[2]} FROM [{_schema}].[{_table}];", raw);
     }
 }

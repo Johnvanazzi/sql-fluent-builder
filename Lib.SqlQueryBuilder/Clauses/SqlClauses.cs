@@ -8,14 +8,14 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
     
     public IWhere From(string schema, string table)
     {
-        Sb.Append($" FROM {schema}.{table}");
+        Sb.Append($" FROM [{schema}].[{table}]");
 
         return this;
     }
 
     public IWhere From(string table)
     {
-        Sb.Append($" FROM {table}");
+        Sb.Append($" FROM [{table}]");
 
         return this;
     }
