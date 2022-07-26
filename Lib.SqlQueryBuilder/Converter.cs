@@ -1,4 +1,6 @@
-﻿namespace Lib.QueryBuilder;
+﻿using Lib.QueryBuilder.Operators;
+
+namespace Lib.QueryBuilder;
 
 public static class Converter
 {
@@ -17,6 +19,20 @@ public static class Converter
             Guid => $"'{obj}'",
             DateTime val => $"'{val:s}'",
             _ => throw new ArgumentOutOfRangeException(nameof(obj), obj, "Type not found for this argument.")
+        };
+    }
+
+    public static string LogicalOperatorToSql(Logical logical)
+    {
+        return logical switch
+        {
+            Logical.And => "AND",
+            Logical.Differs => "!=",
+            Logical.Equals => "=",
+            Logical.Is => "IS",
+            Logical.IsNot => "IS NOT",
+            Logical.Or => "OR",
+            _ => throw new ArgumentOutOfRangeException(nameof(logical), logical, "Logical Operator does not exist;")
         };
     }
 }
