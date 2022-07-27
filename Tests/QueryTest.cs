@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Tests;
 
 [TestFixture]
-public class Tests
+public class QueryTest
 {
     private string[] _columns;
     private string _table;

@@ -2,5 +2,5 @@
 
 public interface ISet : IQuery
 {
-    public IValues Set(string[] columns);
+    public IValues Set(Dictionary<string, object?> columnsValues);
 }

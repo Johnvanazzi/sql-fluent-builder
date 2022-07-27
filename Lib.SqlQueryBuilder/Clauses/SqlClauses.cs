@@ -20,14 +20,18 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
         return this;
     }
 
-    public IValues Set()
+    public IValues Set(Dictionary<string, object?> columnsValues)
     {
-        throw new NotImplementedException();
-    }
-
-    public IValues Set(string[] columns)
-    {
-        throw new NotImplementedException();
+        Sb.Append(" SET ");
+        
+        foreach (KeyValuePair<string, object?> pair in columnsValues)
+        {
+            Sb.Append($"{pair.Key}={Converter.ObjectToSql(pair.Value)}, ");
+        }
+        
+        Sb.Remove(Sb.Length - 2, 2);
+        
+        return this;
     }
 
     public IGroupBy GroupBy()

@@ -4,35 +4,31 @@ namespace Lib.QueryBuilder;
 
 public static class Converter
 {
-    public static string ObjectToSql(object? obj)
+    public static string ObjectToSql(object? obj) => obj switch
     {
-        return obj switch
-        {
-            int => $"{obj}",
-            string => $"'{obj}'",
-            byte => $"{obj}",
-            null => "NULL",
-            bool val => val ? "TRUE" : "FALSE",
-            double => $"{obj}",
-            long => $"{obj}",
-            float => $"{obj}",
-            Guid => $"'{obj}'",
-            DateTime val => $"'{val:s}'",
-            _ => throw new ArgumentOutOfRangeException(nameof(obj), obj, "Type not found for this argument.")
-        };
-    }
+        null => "NULL",
+        int => $"{obj}",
+        long => $"{obj}",
+        char => $"'{obj}'",
+        string => $"'{obj}'",
+        byte => $"{obj}",
+        bool val => val ? "TRUE" : "FALSE",
+        decimal => $"{obj}",
+        double => $"{obj}",
+        float => $"{obj}",
+        Guid => $"'{obj}'",
+        DateTime val => $"'{val:s}'",
+        _ => throw new ArgumentOutOfRangeException(nameof(obj), obj, $"Could not convert value to SQL string because the Type '{obj.GetType()}' provided is not supported")
+    };
 
-    public static string LogicalOperatorToSql(Logical logical)
+    public static string LogicalOperatorToSql(Logical logical) => logical switch
     {
-        return logical switch
-        {
-            Logical.And => "AND",
-            Logical.Differs => "!=",
-            Logical.Equals => "=",
-            Logical.Is => "IS",
-            Logical.IsNot => "IS NOT",
-            Logical.Or => "OR",
-            _ => throw new ArgumentOutOfRangeException(nameof(logical), logical, "Logical Operator does not exist;")
-        };
-    }
+        Logical.And => "AND",
+        Logical.Differs => "!=",
+        Logical.Equals => "=",
+        Logical.Is => "IS",
+        Logical.IsNot => "IS NOT",
+        Logical.Or => "OR",
+        _ => throw new ArgumentOutOfRangeException(nameof(logical), logical, "Logical Operator does not exist;")
+    };
 }
