@@ -1,10 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Lib.QueryBuilder;
 using NUnit.Framework;
 
 namespace Tests;
 
-[TestFixture]
 public class QueryTest
 {
     private string[] _columns;
@@ -85,6 +85,44 @@ public class QueryTest
         Assert.AreEqual($" ORDER BY {_columns[0]}, {_columns[1]}, {_columns[2]};", raw);
         
         _query.Clear();
-        Assert.Catch<ArgumentException>(() =>_query.OrderBy(Array.Empty<string>()));
+        Assert.Catch<ArgumentException>(() => _query.OrderBy(Array.Empty<string>()));
+    }
+    
+    [Test]
+    public void TestSet()
+    {
+        _query.Clear();
+        var values = new Dictionary<string, object?>();
+        Assert.Catch<ArgumentException>(() => _query.Set(values));
+        
+        values.Add(_columns[0], 0);
+        values.Add(_columns[1], "Test");
+        values.Add(_columns[2], null);
+        
+        _query.Clear();
+        string raw = _query.Set(values).ToSql();
+        Assert.AreEqual($" SET {_columns[0]}=0, {_columns[1]}='Test', {_columns[2]}=NULL;", raw);
+    }
+    
+    [Test]
+    public void TestValues()
+    {
+        Assert.Catch<ArgumentException>(() => _query.Values(Array.Empty<object?>()));
+        Assert.Catch<ArgumentException>(() => _query.Values(Array.Empty<object?[]>()));
+
+        object?[] values = { 0, "Test", null };
+        
+        _query.Clear();
+        string raw = _query.Values(values).ToSql();
+        Assert.AreEqual(" VALUES (0, 'Test', NULL);", raw);
+
+        object?[][] values2 =
+        {
+            new object?[]{ 0, "Test1", null },
+            new object?[]{ 1, "Test2", 0.123 }
+        }; 
+        _query.Clear();
+        raw = _query.Values(values2).ToSql();
+        Assert.AreEqual(" VALUES (0, 'Test1', NULL), (1, 'Test2', 0.123);", raw);
     }
 }

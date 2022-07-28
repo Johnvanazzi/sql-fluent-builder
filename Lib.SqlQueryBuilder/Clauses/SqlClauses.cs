@@ -22,6 +22,9 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
 
     public IValues Set(Dictionary<string, object?> columnsValues)
     {
+        if (columnsValues.Count < 1)
+            throw new ArgumentException("No values or columns were provided");
+        
         Sb.Append(" SET ");
         
         foreach (KeyValuePair<string, object?> pair in columnsValues)
@@ -90,5 +93,28 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
         return this;
     }
 
+    public IValues Values(object?[][] rows)
+    {
+        if (rows.Length < 1)
+            throw new ArgumentException("Array of rows is empty");
+
+        Sb.Append(" VALUES ");
+
+        foreach (object?[] row in rows)
+        {
+            Sb.Append("(");
+            foreach (object? col in row)
+            {
+                Sb.Append($"{Converter.ObjectToSql(col)}, ");
+            }
+            
+            Sb.Remove(Sb.Length - 2, 2).Append("), ");
+        }
+
+        Sb.Remove(Sb.Length - 2, 2);
+        
+        return this;
+    }
+    
     public string ToSql() => Sb.Append(';').ToString();
 }

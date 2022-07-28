@@ -3,4 +3,5 @@
 public interface IValues : IQuery
 {
     public IValues Values(object?[] values);
+    public IValues Values(object?[][] values);
 }
