@@ -58,6 +58,9 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
 
     public IValues Insert(string schema, string table, string[] columns)
     {
+        if (columns.Length < 1)
+            throw new ArgumentException("No column was specified.");
+        
         Sb.Append($"INSERT INTO [{schema}].[{table}] (");
 
 
@@ -66,8 +69,7 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
             Sb.Append($"{col}, ");
         }
 
-        Sb.Remove(Sb.Length - 2, 2);
-        Sb.Append(')');
+        Sb.Remove(Sb.Length - 2, 2).Append(')');
         
         return this;
     }
@@ -81,6 +83,9 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
 
     public IValues Insert(string table, string[] columns)
     {
+        if (columns.Length < 1)
+            throw new ArgumentException("No column was specified.");
+        
         Sb.Append($"INSERT INTO [{table}] (");
         
         foreach (string col in columns)
@@ -88,7 +93,7 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
             Sb.Append($"{col}, ");
         }
 
-        Sb.Remove(Sb.Length - 3, 2);
+        Sb.Remove(Sb.Length - 2, 2);
         Sb.Append(')');
 
         return this;

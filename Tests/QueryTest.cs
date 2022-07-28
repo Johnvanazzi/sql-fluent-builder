@@ -125,4 +125,51 @@ public class QueryTest
         raw = _query.Values(values2).ToSql();
         Assert.AreEqual(" VALUES (0, 'Test1', NULL), (1, 'Test2', 0.123);", raw);
     }
+
+    [Test]
+    public void TestInsert()
+    {
+        _query.Clear();
+        string raw = _query.Insert(_schema, _table).ToSql();
+        Assert.AreEqual($"INSERT INTO [{_schema}].[{_table}];", raw);
+        
+        _query.Clear();
+        raw = _query.Insert(_table).ToSql();
+        Assert.AreEqual($"INSERT INTO [{_table}];", raw);
+        
+        _query.Clear();
+        raw = _query.Insert(_schema, _table, _columns).ToSql();
+        Assert.AreEqual($"INSERT INTO [{_schema}].[{_table}] ({_columns[0]}, {_columns[1]}, {_columns[2]});", raw);
+        
+        _query.Clear();
+        raw = _query.Insert(_table, _columns).ToSql();
+        Assert.AreEqual($"INSERT INTO [{_table}] ({_columns[0]}, {_columns[1]}, {_columns[2]});", raw);
+
+        Assert.Catch<ArgumentException>(() => _query.Insert(_schema, _table, Array.Empty<string>()));
+        Assert.Catch<ArgumentException>(() => _query.Insert(_table, Array.Empty<string>()));
+    }
+
+    [Test]
+    public void TestDelete()
+    {
+        _query.Clear();
+        string raw = _query.Delete(_schema, _table).ToSql();
+        Assert.AreEqual($"DELETE FROM [{_schema}].[{_table}];", raw);
+        
+        _query.Clear();
+        raw = _query.Delete(_table).ToSql();
+        Assert.AreEqual($"DELETE FROM [{_table}];", raw);
+    }
+    
+    [Test]
+    public void TestUpdate()
+    {
+        _query.Clear();
+        string raw = _query.Update(_schema, _table).ToSql();
+        Assert.AreEqual($"UPDATE [{_schema}].[{_table}];", raw);
+        
+        _query.Clear();
+        raw = _query.Update(_table).ToSql();
+        Assert.AreEqual($"UPDATE [{_table}];", raw);
+    }
 }
