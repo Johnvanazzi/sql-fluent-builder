@@ -65,4 +65,26 @@ public class QueryTest
         raw = _query.Select(_columns).From(_schema, _table).ToSql();
         Assert.AreEqual($"SELECT {_columns[0]}, {_columns[1]}, {_columns[2]} FROM [{_schema}].[{_table}];", raw);
     }
+
+    [Test]
+    public void TestGroupBy()
+    {
+        _query.Clear();
+        string raw = _query.GroupBy(_columns).ToSql();
+        Assert.AreEqual($" GROUP BY {_columns[0]}, {_columns[1]}, {_columns[2]};", raw);
+        
+        _query.Clear();
+        Assert.Catch<ArgumentException>(() =>_query.GroupBy(Array.Empty<string>()));
+    }
+    
+    [Test]
+    public void TestOrderBy()
+    {
+        _query.Clear();
+        string raw = _query.OrderBy(_columns).ToSql();
+        Assert.AreEqual($" ORDER BY {_columns[0]}, {_columns[1]}, {_columns[2]};", raw);
+        
+        _query.Clear();
+        Assert.Catch<ArgumentException>(() =>_query.OrderBy(Array.Empty<string>()));
+    }
 }

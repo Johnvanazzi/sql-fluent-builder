@@ -34,14 +34,38 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
         return this;
     }
 
-    public IGroupBy GroupBy()
+    public IGroupBy GroupBy(string[] columns)
     {
-        throw new NotImplementedException();
+        if (columns.Length < 1)
+            throw new ArgumentException("Array of values is empty");
+        
+        Sb.Append(" GROUP BY ");
+
+        foreach (string col in columns)
+        {
+            Sb.Append($"{col}, ");
+        }
+
+        Sb.Remove(Sb.Length - 2, 2);
+
+        return this;
     }
 
-    public IOrderBy OrderBy()
+    public IOrderBy OrderBy(string[] columns)
     {
-        throw new NotImplementedException();
+        if (columns.Length < 1)
+            throw new ArgumentException("Array of columns is empty");
+        
+        Sb.Append(" ORDER BY ");
+
+        foreach (string col in columns)
+        {
+            Sb.Append($"{col}, ");
+        }
+
+        Sb.Remove(Sb.Length - 2, 2);
+
+        return this;
     }
 
     public IPostWhere Where()

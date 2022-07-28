@@ -2,5 +2,5 @@
 
 public interface IGroupBy : IQuery
 {
-    public IGroupBy GroupBy();
+    public IGroupBy GroupBy(string[] columns);
 }

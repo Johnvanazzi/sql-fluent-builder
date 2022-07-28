@@ -2,5 +2,5 @@
 
 public interface IOrderBy : IQuery
 {
-    public IOrderBy OrderBy();
+    public IOrderBy OrderBy(string[] columns);
 }

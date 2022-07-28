@@ -58,7 +58,7 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
 
     public IValues Insert(string schema, string table, string[] columns)
     {
-        Sb.Append($"INSERT INTO [{schema}].[{table}] ( ");
+        Sb.Append($"INSERT INTO [{schema}].[{table}] (");
 
 
         foreach (string col in columns)
@@ -66,7 +66,7 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
             Sb.Append($"{col}, ");
         }
 
-        Sb.Remove(Sb.Length - 3, 2);
+        Sb.Remove(Sb.Length - 2, 2);
         Sb.Append(')');
         
         return this;
