@@ -21,14 +21,23 @@ public static class Converter
         _ => throw new ArgumentOutOfRangeException(nameof(obj), obj, $"Could not convert value to SQL string because the Type '{obj.GetType()}' provided is not supported")
     };
 
-    public static string LogicalOperatorToSql(Logical logical) => logical switch
+    public static string LogicalToSql(Connective? connective) => connective switch
     {
-        Logical.And => "AND",
-        Logical.Differs => "!=",
-        Logical.Equals => "=",
-        Logical.Is => "IS",
-        Logical.IsNot => "IS NOT",
-        Logical.Or => "OR",
-        _ => throw new ArgumentOutOfRangeException(nameof(logical), logical, "Logical Operator does not exist;")
+        Connective.And => "AND",
+        Connective.Or => "OR",
+        _ => throw new ArgumentOutOfRangeException(nameof(connective), connective, "Logical Operator does not exist;")
+    };
+    
+    public static string ComparerToSql(Comparer? comparer) => comparer switch
+    {
+        Comparer.Differs => "!=",
+        Comparer.Equals => "=",
+        Comparer.GreaterEqualThan => ">=",
+        Comparer.GreaterThan => ">",
+        Comparer.Is => "IS",
+        Comparer.IsNot => "IS NOT",
+        Comparer.LessThan => "<",
+        Comparer.LessEqualThan => "<=",
+        _ => throw new ArgumentOutOfRangeException(nameof(comparer), comparer, "Comparer Operator does not exist;")
     };
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Lib.QueryBuilder;
+using Lib.QueryBuilder.Operators;
 using NUnit.Framework;
 
 namespace Tests;
@@ -171,5 +172,37 @@ public class QueryTest
         _query.Clear();
         raw = _query.Update(_table).ToSql();
         Assert.AreEqual($"UPDATE [{_table}];", raw);
+    }
+
+    [Test]
+    public void TestWhere()
+    {
+        _query.Clear();
+        var cond = new Condition(_columns[0], Comparer.Differs, "test");
+        string raw = _query.Where(cond).ToSql();
+        Assert.AreEqual($" WHERE ({_columns[0]} != 'test');", raw);
+
+        var cond1 = new Condition[]
+        {
+            new(_columns[0], Comparer.Equals, 1, Connective.And),
+            new(_columns[1], Comparer.Is, false)
+        };
+        _query.Clear();
+        raw = _query.Where(cond1).ToSql();
+        Assert.AreEqual($" WHERE (({_columns[0]} = 1) AND ({_columns[1]} IS FALSE));", raw);
+        
+        var cond2 = new Condition[]
+        {
+            new(_columns[0], Comparer.GreaterEqualThan, new DateTime(2022, 01, 01), Connective.And),
+            new(new Condition[]
+            {
+                new (_columns[1], Comparer.GreaterThan, 1.2, Connective.Or),
+                new (_columns[2], Comparer.GreaterEqualThan, 2)
+            }, Connective.Or),
+            new (_columns[2], Comparer.LessEqualThan, 5)
+        };
+        _query.Clear();
+        raw = _query.Where(cond2).ToSql();
+        Assert.AreEqual($" WHERE (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
     }
 }

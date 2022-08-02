@@ -1,8 +1,9 @@
 ﻿using System.Text;
+using Lib.QueryBuilder.Operators;
 
 namespace Lib.QueryBuilder.Clauses;
 
-public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
+public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
 {
     protected readonly StringBuilder Sb = new();
     
@@ -71,10 +72,24 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
         return this;
     }
 
-    public IPostWhere Where()
+    public IPostWhere Where(Condition condition)
     {
-        throw new NotImplementedException();
+        Sb.Append($" WHERE ({condition.Column} {Converter.ComparerToSql(condition.Comparer)} {Converter.ObjectToSql(condition.Value)})");
+
+        return this;
     }
+
+    public IPostWhere Where(Condition[] conditions)
+    {
+        Sb.Append(" WHERE (");        
+        NestedConditions(conditions);
+        Sb.Append(')');
+
+        return this;
+    }
+
+    public IPostWhere Where(string column, Comparer comparer, object? value)
+        => Where(new Condition(column, comparer, value));
 
     public IValues Values(object?[] values)
     {
@@ -102,7 +117,7 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
 
         foreach (object?[] row in rows)
         {
-            Sb.Append("(");
+            Sb.Append('(');
             foreach (object? col in row)
             {
                 Sb.Append($"{Converter.ObjectToSql(col)}, ");
@@ -117,4 +132,25 @@ public class SqlClauses : IFrom, ISet, IGroupBy, IOrderBy, IValues, IWhere
     }
     
     public string ToSql() => Sb.Append(';').ToString();
+    
+    private void NestedConditions(Condition[] conditions)
+    {
+        foreach (Condition cond in conditions)
+        {
+            if (cond.SubConditions != null)
+            {
+                Sb.Append('(');
+                NestedConditions(cond.SubConditions);
+                Sb.Append(')');
+            }
+            
+            if (cond.Column != null)
+                Sb.Append($"({cond.Column} {Converter.ComparerToSql(cond.Comparer)} {Converter.ObjectToSql(cond.Value)})");
+
+            if (cond.Connective != null)
+            {
+                Sb.Append($" {Converter.LogicalToSql(cond.Connective)} ");
+            }
+        }
+    }
 }
