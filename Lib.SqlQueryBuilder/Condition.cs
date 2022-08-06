@@ -25,7 +25,7 @@ public class Condition
         Connective = connective;
     }
     
-    public Condition(Condition[]? subConditions, Connective? connective = null)
+    public Condition(Condition[] subConditions, Connective? connective = null)
     {
         SubConditions = subConditions;
         Connective = connective;

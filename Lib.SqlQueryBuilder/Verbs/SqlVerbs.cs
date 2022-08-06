@@ -16,14 +16,7 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
         if (columns.Length < 1)
             throw new ArgumentException("Array of columns must not be empty");
 
-        Sb.Append("SELECT ");
-
-        foreach (string col in columns)
-        {
-            Sb.Append($"{col}, ");
-        }
-
-        Sb.Remove(Sb.Length - 2, 2);
+        Sb.Append("SELECT ").AppendJoin(", ", columns);
 
         return this;
     }
@@ -60,17 +53,9 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
     {
         if (columns.Length < 1)
             throw new ArgumentException("No column was specified.");
-        
-        Sb.Append($"INSERT INTO [{schema}].[{table}] (");
 
+        Sb.Append($"INSERT INTO [{schema}].[{table}] (").AppendJoin(", ", columns).Append(')');
 
-        foreach (string col in columns)
-        {
-            Sb.Append($"{col}, ");
-        }
-
-        Sb.Remove(Sb.Length - 2, 2).Append(')');
-        
         return this;
     }
 
@@ -86,15 +71,7 @@ public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
         if (columns.Length < 1)
             throw new ArgumentException("No column was specified.");
         
-        Sb.Append($"INSERT INTO [{table}] (");
-        
-        foreach (string col in columns)
-        {
-            Sb.Append($"{col}, ");
-        }
-
-        Sb.Remove(Sb.Length - 2, 2);
-        Sb.Append(')');
+        Sb.Append($"INSERT INTO [{table}] (").AppendJoin(", ", columns).Append(')');
 
         return this;
     }

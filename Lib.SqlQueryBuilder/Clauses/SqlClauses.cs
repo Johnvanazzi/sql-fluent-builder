@@ -25,16 +25,10 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
     {
         if (columnsValues.Count < 1)
             throw new ArgumentException("No values or columns were provided");
-        
-        Sb.Append(" SET ");
-        
-        foreach (KeyValuePair<string, object?> pair in columnsValues)
-        {
-            Sb.Append($"{pair.Key}={Converter.ObjectToSql(pair.Value)}, ");
-        }
-        
-        Sb.Remove(Sb.Length - 2, 2);
-        
+
+        Sb.Append(" SET ")
+          .AppendJoin(", ", columnsValues.Select(pair => $"{pair.Key}={Converter.ObjectToSql(pair.Value)}"));
+
         return this;
     }
 
@@ -42,15 +36,8 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
     {
         if (columns.Length < 1)
             throw new ArgumentException("Array of values is empty");
-        
-        Sb.Append(" GROUP BY ");
 
-        foreach (string col in columns)
-        {
-            Sb.Append($"{col}, ");
-        }
-
-        Sb.Remove(Sb.Length - 2, 2);
+        Sb.Append(" GROUP BY ").AppendJoin(", ", columns);
 
         return this;
     }
@@ -59,15 +46,8 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
     {
         if (columns.Length < 1)
             throw new ArgumentException("Array of columns is empty");
-        
-        Sb.Append(" ORDER BY ");
 
-        foreach (string col in columns)
-        {
-            Sb.Append($"{col}, ");
-        }
-
-        Sb.Remove(Sb.Length - 2, 2);
+        Sb.Append(" ORDER BY ").AppendJoin(", ", columns);
 
         return this;
     }
@@ -96,14 +76,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
         if (values.Length < 1)
             throw new ArgumentException("Array of values is empty");
 
-        Sb.Append(" VALUES (");
-
-        foreach (object? value in values)
-        {
-            Sb.Append($"{Converter.ObjectToSql(value)}, ");
-        }
-
-        Sb.Remove(Sb.Length - 2, 2).Append(')');
+        Sb.Append(" VALUES (").AppendJoin(", ", values.Select(Converter.ObjectToSql)).Append(')');
 
         return this;
     }
@@ -117,13 +90,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
 
         foreach (object?[] row in rows)
         {
-            Sb.Append('(');
-            foreach (object? col in row)
-            {
-                Sb.Append($"{Converter.ObjectToSql(col)}, ");
-            }
-            
-            Sb.Remove(Sb.Length - 2, 2).Append("), ");
+            Sb.Append('(').AppendJoin(", ", row.Select(Converter.ObjectToSql)).Append("), ");
         }
 
         Sb.Remove(Sb.Length - 2, 2);
@@ -148,9 +115,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
                 Sb.Append($"({cond.Column} {Converter.ComparerToSql(cond.Comparer)} {Converter.ObjectToSql(cond.Value)})");
 
             if (cond.Connective != null)
-            {
                 Sb.Append($" {Converter.LogicalToSql(cond.Connective)} ");
-            }
         }
     }
 }
