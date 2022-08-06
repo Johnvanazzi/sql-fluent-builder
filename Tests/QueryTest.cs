@@ -204,5 +204,19 @@ public class QueryTest
         _query.Clear();
         raw = _query.Where(cond2).ToSql();
         Assert.AreEqual($" WHERE (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
+        
+        var cond3 = new Condition[]
+        {
+            new(_columns[0], Comparer.GreaterEqualThan, new DateTime(2022, 01, 01)),
+            new(new Condition[]
+            {
+                new (_columns[1], Comparer.GreaterThan, 1.2, Connective.Or),
+                new (_columns[2], Comparer.GreaterEqualThan, 2)
+            }, Connective.Or),
+            new (_columns[2], Comparer.LessEqualThan, 5)
+        };
+        _query.Clear();
+        raw = _query.Where(cond3).ToSql();
+        Assert.AreNotEqual($" WHERE (({_columns[0]} >= '2022-01-01T00:00:00') (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
     }
 }
