@@ -4,7 +4,7 @@ namespace Lib.QueryBuilder;
 
 public static class Converter
 {
-    public static string ObjectToSql(object? obj) => obj switch
+    public static string ToSql(this object? obj) => obj switch
     {
         null => "NULL",
         int => $"{obj}",
@@ -21,14 +21,14 @@ public static class Converter
         _ => throw new ArgumentOutOfRangeException(nameof(obj), obj, $"Could not convert value to SQL string because the Type '{obj.GetType()}' provided is not supported")
     };
 
-    public static string LogicalToSql(Connective? connective) => connective switch
+    public static string ToSql(this Connective connective) => connective switch
     {
         Connective.And => "AND",
         Connective.Or => "OR",
         _ => throw new ArgumentOutOfRangeException(nameof(connective), connective, "Logical Operator does not exist;")
     };
     
-    public static string ComparerToSql(Comparer? comparer) => comparer switch
+    public static string ToSql(this Comparer comparer) => comparer switch
     {
         Comparer.Differs => "!=",
         Comparer.Equals => "=",

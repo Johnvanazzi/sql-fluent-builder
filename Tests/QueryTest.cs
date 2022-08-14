@@ -219,4 +219,50 @@ public class QueryTest
         raw = _query.Where(cond3).ToSql();
         Assert.AreNotEqual($" WHERE (({_columns[0]} >= '2022-01-01T00:00:00') (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
     }
+
+    [Test]
+    public void TestHaving()
+    {
+        _query.Clear();
+        var cond = new Condition(_columns[0], Comparer.Differs, "test");
+        string raw = _query.Having(cond).ToSql();
+        Assert.AreEqual($" HAVING ({_columns[0]} != 'test');", raw);
+
+        var cond1 = new Condition[]
+        {
+            new(_columns[0], Comparer.Equals, 1, Connective.And),
+            new(_columns[1], Comparer.Is, false)
+        };
+        _query.Clear();
+        raw = _query.Having(cond1).ToSql();
+        Assert.AreEqual($" HAVING (({_columns[0]} = 1) AND ({_columns[1]} IS FALSE));", raw);
+        
+        var cond2 = new Condition[]
+        {
+            new(_columns[0], Comparer.GreaterEqualThan, new DateTime(2022, 01, 01), Connective.And),
+            new(new Condition[]
+            {
+                new (_columns[1], Comparer.GreaterThan, 1.2, Connective.Or),
+                new (_columns[2], Comparer.GreaterEqualThan, 2)
+            }, Connective.Or),
+            new (_columns[2], Comparer.LessEqualThan, 5)
+        };
+        _query.Clear();
+        raw = _query.Having(cond2).ToSql();
+        Assert.AreEqual($" HAVING (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
+        
+        var cond3 = new Condition[]
+        {
+            new(_columns[0], Comparer.GreaterEqualThan, new DateTime(2022, 01, 01)),
+            new(new Condition[]
+            {
+                new (_columns[1], Comparer.GreaterThan, 1.2, Connective.Or),
+                new (_columns[2], Comparer.GreaterEqualThan, 2)
+            }, Connective.Or),
+            new (_columns[2], Comparer.LessEqualThan, 5)
+        };
+        _query.Clear();
+        raw = _query.Having(cond3).ToSql();
+        Assert.AreNotEqual($" HAVING (({_columns[0]} >= '2022-01-01T00:00:00') (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
+    }
 }

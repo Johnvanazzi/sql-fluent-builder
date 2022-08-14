@@ -3,7 +3,7 @@ using Lib.QueryBuilder.Operators;
 
 namespace Lib.QueryBuilder.Clauses;
 
-public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
+public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere, IHaving
 {
     protected readonly StringBuilder Sb = new();
     
@@ -27,12 +27,12 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
             throw new ArgumentException("No values or columns were provided");
 
         Sb.Append(" SET ")
-          .AppendJoin(", ", columnsValues.Select(pair => $"{pair.Key}={Converter.ObjectToSql(pair.Value)}"));
+          .AppendJoin(", ", columnsValues.Select(pair => $"{pair.Key}={pair.Value.ToSql()}"));
 
         return this;
     }
 
-    public IGroupBy GroupBy(string[] columns)
+    public IHaving GroupBy(string[] columns)
     {
         if (columns.Length < 1)
             throw new ArgumentException("Array of values is empty");
@@ -54,7 +54,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
 
     public IPostWhere Where(Condition condition)
     {
-        Sb.Append($" WHERE ({condition.Column} {Converter.ComparerToSql(condition.Comparer)} {Converter.ObjectToSql(condition.Value)})");
+        Sb.Append($" WHERE ({condition.Column} {condition.Comparer!.Value.ToSql()} {condition.Value.ToSql()})");
 
         return this;
     }
@@ -76,7 +76,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
         if (values.Length < 1)
             throw new ArgumentException("Array of values is empty");
 
-        Sb.Append(" VALUES (").AppendJoin(", ", values.Select(Converter.ObjectToSql)).Append(')');
+        Sb.Append(" VALUES (").AppendJoin(", ", values.Select(Converter.ToSql)).Append(')');
 
         return this;
     }
@@ -90,7 +90,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
 
         foreach (object?[] row in rows)
         {
-            Sb.Append('(').AppendJoin(", ", row.Select(Converter.ObjectToSql)).Append("), ");
+            Sb.Append('(').AppendJoin(", ", row.Select(Converter.ToSql)).Append("), ");
         }
 
         Sb.Remove(Sb.Length - 2, 2);
@@ -99,7 +99,23 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
     }
     
     public string ToSql() => Sb.Append(';').ToString();
-    
+
+    public IOrderBy Having(Condition[] conditions)
+    {
+        Sb.Append(" HAVING (");        
+        NestedConditions(conditions);
+        Sb.Append(')');
+
+        return this;
+    }
+
+    public IOrderBy Having(Condition condition)
+    {
+        Sb.Append($" HAVING ({condition.Column} {condition.Comparer!.Value.ToSql()} {condition.Value.ToSql()})");
+
+        return this;
+    }
+
     private void NestedConditions(Condition[] conditions)
     {
         foreach (Condition cond in conditions)
@@ -112,10 +128,10 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere
             }
             
             if (cond.Column != null)
-                Sb.Append($"({cond.Column} {Converter.ComparerToSql(cond.Comparer)} {Converter.ObjectToSql(cond.Value)})");
+                Sb.Append($"({cond.Column} {cond.Comparer!.Value.ToSql()} {cond.Value.ToSql()})");
 
             if (cond.Connective != null)
-                Sb.Append($" {Converter.LogicalToSql(cond.Connective)} ");
+                Sb.Append($" {cond.Connective.Value.ToSql()} ");
         }
     }
 }
