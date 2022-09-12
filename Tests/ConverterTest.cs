@@ -35,20 +35,20 @@ public class ConverterTest
     [Test]
     public void TestLogicalToSql()
     {
-        Assert.AreEqual("AND", Converter.ToSql(Connective.And));
-        Assert.AreEqual("OR", Converter.ToSql(Connective.Or));
+        Assert.AreEqual("AND", Connective.And.ToSql());
+        Assert.AreEqual("OR", Connective.Or.ToSql());
     }
     
     [Test]
     public void TestComparerToSql()
     {
-        Assert.AreEqual("!=", Converter.ToSql(Comparer.Differs));
-        Assert.AreEqual("=", Converter.ToSql(Comparer.Equals));
-        Assert.AreEqual(">=", Converter.ToSql(Comparer.GreaterEqualThan));
-        Assert.AreEqual(">", Converter.ToSql(Comparer.GreaterThan));
-        Assert.AreEqual("IS", Converter.ToSql(Comparer.Is));
-        Assert.AreEqual("IS NOT", Converter.ToSql(Comparer.IsNot));
-        Assert.AreEqual("<", Converter.ToSql(Comparer.LessThan));
-        Assert.AreEqual("<=", Converter.ToSql(Comparer.LessEqualThan));
+        Assert.AreEqual("!=", Comparer.Differs.ToSql());
+        Assert.AreEqual("=", Comparer.Equals.ToSql());
+        Assert.AreEqual(">=", Comparer.GreaterEqualThan.ToSql());
+        Assert.AreEqual(">", Comparer.GreaterThan.ToSql());
+        Assert.AreEqual("IS", Comparer.Is.ToSql());
+        Assert.AreEqual("IS NOT", Comparer.IsNot.ToSql());
+        Assert.AreEqual("<", Comparer.LessThan.ToSql());
+        Assert.AreEqual("<=", Comparer.LessEqualThan.ToSql());
     }
 }

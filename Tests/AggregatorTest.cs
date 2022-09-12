@@ -7,7 +7,7 @@ public class AggregatorTest
 {
     private string _column;
     
-    [SetUp]
+    [OneTimeSetUp]
     public void SetUp()
     {
         _column = "col1";
