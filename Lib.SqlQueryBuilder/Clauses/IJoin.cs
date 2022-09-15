@@ -1,6 +1,6 @@
 namespace Lib.QueryBuilder.Clauses;
 
-public interface IJoin : IWhere, IGroupBy, IOrderBy
+public interface IJoin : IWhere, IGroupBy
 {
     public IOn LeftJoin(string table);
     public IOn LeftJoin(string schema,string table);

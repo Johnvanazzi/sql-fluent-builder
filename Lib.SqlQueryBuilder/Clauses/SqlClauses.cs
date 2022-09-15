@@ -4,7 +4,7 @@ using Lib.QueryBuilder.Utils;
 
 namespace Lib.QueryBuilder.Clauses;
 
-public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IHaving, IJoin, IOn
+public class SqlClauses : IFrom, ISet, IValues, IHaving, IJoin, IOn
 {
     protected readonly StringBuilder Sb = new();
     
@@ -53,14 +53,14 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IHaving, IJoin, IOn
         return this;
     }
 
-    public IPostWhere Where(Condition condition)
+    public IGroupBy Where(Condition condition)
     {
         Sb.Append($" WHERE ({condition.Column} {condition.Comparer!.Value.ToSql()} {condition.Value.ToSql()})");
 
         return this;
     }
 
-    public IPostWhere Where(Condition[] conditions)
+    public IGroupBy Where(Condition[] conditions)
     {
         Sb.Append(" WHERE (");        
         NestedConditions(conditions);
@@ -69,7 +69,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IHaving, IJoin, IOn
         return this;
     }
 
-    public IPostWhere Where(string column, Comparer comparer, object? value)
+    public IGroupBy Where(string column, Comparer comparer, object? value)
         => Where(new Condition(column, comparer, value));
 
     public IValues Values(object?[] values)

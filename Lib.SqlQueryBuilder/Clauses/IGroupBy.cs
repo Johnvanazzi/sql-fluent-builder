@@ -1,6 +1,6 @@
 ﻿namespace Lib.QueryBuilder.Clauses;
 
-public interface IGroupBy : IQuery
+public interface IGroupBy : IOrderBy
 {
     public IHaving GroupBy(string[] columns);
 }
