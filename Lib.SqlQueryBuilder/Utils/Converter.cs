@@ -32,12 +32,13 @@ public static class Converter
     {
         Comparer.Differs => "!=",
         Comparer.Equals => "=",
-        Comparer.GreaterEqualThan => ">=",
-        Comparer.GreaterThan => ">",
+        Comparer.GreaterEqual => ">=",
+        Comparer.Greater => ">",
         Comparer.Is => "IS",
         Comparer.IsNot => "IS NOT",
-        Comparer.LessThan => "<",
-        Comparer.LessEqualThan => "<=",
+        Comparer.Less => "<",
+        Comparer.LessEqual => "<=",
+        Comparer.Like => "LIKE",
         _ => throw new ArgumentOutOfRangeException(nameof(comparer), comparer, "Comparer Operator does not exist;")
     };
 }

@@ -38,11 +38,11 @@ public class ConverterTest
     {
         Assert.AreEqual("!=", Comparer.Differs.ToSql());
         Assert.AreEqual("=", Comparer.Equals.ToSql());
-        Assert.AreEqual(">=", Comparer.GreaterEqualThan.ToSql());
-        Assert.AreEqual(">", Comparer.GreaterThan.ToSql());
+        Assert.AreEqual(">=", Comparer.GreaterEqual.ToSql());
+        Assert.AreEqual(">", Comparer.Greater.ToSql());
         Assert.AreEqual("IS", Comparer.Is.ToSql());
         Assert.AreEqual("IS NOT", Comparer.IsNot.ToSql());
-        Assert.AreEqual("<", Comparer.LessThan.ToSql());
-        Assert.AreEqual("<=", Comparer.LessEqualThan.ToSql());
+        Assert.AreEqual("<", Comparer.Less.ToSql());
+        Assert.AreEqual("<=", Comparer.LessEqual.ToSql());
     }
 }

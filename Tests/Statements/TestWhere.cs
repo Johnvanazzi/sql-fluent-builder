@@ -33,13 +33,13 @@ public class TestWhere : BaseConfig
     {
         var cond = new Condition[]
         {
-            new(_columns[0], Comparer.GreaterEqualThan, new DateTime(2022, 01, 01), Connective.And),
+            new(_columns[0], Comparer.GreaterEqual, new DateTime(2022, 01, 01), Connective.And),
             new(new Condition[]
             {
-                new (_columns[1], Comparer.GreaterThan, 1.2, Connective.Or),
-                new (_columns[2], Comparer.GreaterEqualThan, 2)
+                new (_columns[1], Comparer.Greater, 1.2, Connective.Or),
+                new (_columns[2], Comparer.GreaterEqual, 2)
             }, Connective.Or),
-            new (_columns[2], Comparer.LessEqualThan, 5)
+            new (_columns[2], Comparer.LessEqual, 5)
         };
         string raw = _query.Where(cond).ToSql();
         Assert.AreEqual($" WHERE (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5))", raw);

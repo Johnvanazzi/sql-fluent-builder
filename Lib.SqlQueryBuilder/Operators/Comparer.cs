@@ -4,10 +4,11 @@ public enum Comparer
 {
     Differs,
     Equals,
-    GreaterEqualThan,
-    GreaterThan,
+    GreaterEqual,
+    Greater,
     Is,
     IsNot,
-    LessThan,
-    LessEqualThan
+    Less,
+    LessEqual,
+    Like
 }
