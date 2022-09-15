@@ -10,7 +10,7 @@ public class TestOrderBy : BaseConfig
     public void WithColumns()
     {
         string raw = _query.OrderBy(_columns).ToSql();
-        Assert.AreEqual($" ORDER BY {_columns[0]}, {_columns[1]}, {_columns[2]};", raw);
+        Assert.AreEqual($" ORDER BY {_columns[0]}, {_columns[1]}, {_columns[2]}", raw);
     }
     
     [Test]

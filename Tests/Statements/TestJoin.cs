@@ -8,20 +8,42 @@ namespace Tests.Statements;
 public class TestJoin : BaseConfig
 {
     [Test]
-    public void TestJoinOn()
+    public void WithOnlyTable()
     {
-        string raw1 = _query.InnerJoin(_schema, _table).On("key1", "key2").ToSql();
-        
-        var conditions = new Condition[]
-        {
-            new(_columns[0], Comparer.Equals, 1, Connective.And),
-            new(_columns[1], Comparer.Is, false)
-        };
-        
+        string raw1 = _query.InnerJoin(_table).ToSql();
         _query.Clear();
-        string raw2 = _query.InnerJoin(_schema, _table).On("key1", "key2", Connective.And, conditions).ToSql();
+        string raw2 = _query.OuterJoin(_table).ToSql();
+        _query.Clear();
+        string raw3 = _query.LeftJoin(_table).ToSql();
+        _query.Clear();
+        string raw4 = _query.RightJoin(_table).ToSql();
+        _query.Clear();
+        string raw5 = _query.CrossJoin(_table).ToSql();
 
-        Assert.AreEqual($" INNER JOIN [{_schema}].[{_table}] ON key1 = key2;", raw1);
-        Assert.AreEqual($" INNER JOIN [{_schema}].[{_table}] ON key1 = key2 AND ({_columns[0]} = 1) AND ({_columns[1]} IS FALSE);", raw2);
+        Assert.AreEqual($" INNER JOIN [{_table}]", raw1);
+        Assert.AreEqual($" OUTER JOIN [{_table}]", raw2);
+        Assert.AreEqual($" LEFT JOIN [{_table}]", raw3);
+        Assert.AreEqual($" RIGHT JOIN [{_table}]", raw4);
+        Assert.AreEqual($" CROSS JOIN [{_table}]", raw5);
+    }
+    
+    [Test]
+    public void WithTableAndSchema()
+    {
+        string raw1 = _query.InnerJoin(_schema, _table).ToSql();
+        _query.Clear();
+        string raw2 = _query.OuterJoin(_schema, _table).ToSql();
+        _query.Clear();
+        string raw3 = _query.LeftJoin(_schema, _table).ToSql();
+        _query.Clear();
+        string raw4 = _query.RightJoin(_schema, _table).ToSql();
+        _query.Clear();
+        string raw5 = _query.CrossJoin(_schema, _table).ToSql();
+
+        Assert.AreEqual($" INNER JOIN [{_schema}].[{_table}]", raw1);
+        Assert.AreEqual($" OUTER JOIN [{_schema}].[{_table}]", raw2);
+        Assert.AreEqual($" LEFT JOIN [{_schema}].[{_table}]", raw3);
+        Assert.AreEqual($" RIGHT JOIN [{_schema}].[{_table}]", raw4);
+        Assert.AreEqual($" CROSS JOIN [{_schema}].[{_table}]", raw5);
     }
 }

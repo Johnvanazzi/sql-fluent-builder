@@ -13,7 +13,7 @@ public class TestHaving : BaseConfig
     {
         var condition = new Condition(_columns[0], Comparer.Differs, "test");
         string raw = _query.Having(condition).ToSql();
-        Assert.AreEqual($" HAVING ({_columns[0]} != 'test');", raw);
+        Assert.AreEqual($" HAVING ({_columns[0]} != 'test')", raw);
     }
     
     [Test]
@@ -25,7 +25,7 @@ public class TestHaving : BaseConfig
             new(_columns[1], Comparer.Is, false)
         };
         string raw = _query.Having(conditions).ToSql();
-        Assert.AreEqual($" HAVING (({_columns[0]} = 1) AND ({_columns[1]} IS FALSE));", raw);
+        Assert.AreEqual($" HAVING (({_columns[0]} = 1) AND ({_columns[1]} IS FALSE))", raw);
     }
 
     [Test]
@@ -42,6 +42,6 @@ public class TestHaving : BaseConfig
             new (_columns[2], Comparer.LessEqualThan, 5)
         };
         string raw = _query.Having(cond2).ToSql();
-        Assert.AreEqual($" HAVING (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
+        Assert.AreEqual($" HAVING (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5))", raw);
     }
 }

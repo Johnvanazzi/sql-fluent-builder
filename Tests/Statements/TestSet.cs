@@ -23,6 +23,6 @@ public class TestSet : BaseConfig
             { _columns[2], null }
         };
         string raw = _query.Set(values).ToSql();
-        Assert.AreEqual($" SET {_columns[0]}=0, {_columns[1]}='Test', {_columns[2]}=NULL;", raw);
+        Assert.AreEqual($" SET {_columns[0]}=0, {_columns[1]}='Test', {_columns[2]}=NULL", raw);
     }
 }

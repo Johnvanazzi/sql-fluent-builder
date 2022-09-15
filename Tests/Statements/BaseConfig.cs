@@ -27,8 +27,6 @@ public class BaseConfig
     {
         _query.Select();
         _query.Clear();
-
-        Assert.NotNull(_query);
-        Assert.AreEqual(";",_query.ToSql());
+        Assert.AreEqual("",_query.ToSql());
     }
 }

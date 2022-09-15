@@ -13,7 +13,7 @@ public class TestWhere : BaseConfig
     {
         var cond = new Condition(_columns[0], Comparer.Differs, "test");
         string raw = _query.Where(cond).ToSql();
-        Assert.AreEqual($" WHERE ({_columns[0]} != 'test');", raw);
+        Assert.AreEqual($" WHERE ({_columns[0]} != 'test')", raw);
     }
     
     [Test]
@@ -25,7 +25,7 @@ public class TestWhere : BaseConfig
             new(_columns[1], Comparer.Is, false)
         };
         string raw = _query.Where(cond).ToSql();
-        Assert.AreEqual($" WHERE (({_columns[0]} = 1) AND ({_columns[1]} IS FALSE));", raw);
+        Assert.AreEqual($" WHERE (({_columns[0]} = 1) AND ({_columns[1]} IS FALSE))", raw);
     }
     
     [Test]
@@ -42,6 +42,6 @@ public class TestWhere : BaseConfig
             new (_columns[2], Comparer.LessEqualThan, 5)
         };
         string raw = _query.Where(cond).ToSql();
-        Assert.AreEqual($" WHERE (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
+        Assert.AreEqual($" WHERE (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5))", raw);
     }
 }

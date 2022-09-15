@@ -99,7 +99,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IHaving, IJoin, IOn
         return this;
     }
     
-    public string ToSql() => Sb.Append(';').ToString();
+    public string ToSql() => Sb.ToString();
 
     public IOrderBy Having(Condition[] conditions)
     {

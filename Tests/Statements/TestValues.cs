@@ -18,7 +18,7 @@ public class TestValues : BaseConfig
     {
         object?[] values = { 0, "Test", null };
         string raw = _query.Values(values).ToSql();
-        Assert.AreEqual(" VALUES (0, 'Test', NULL);", raw);
+        Assert.AreEqual(" VALUES (0, 'Test', NULL)", raw);
     }
     
     [Test]
@@ -30,6 +30,6 @@ public class TestValues : BaseConfig
             new object?[]{ 1, "Test2", 0.123 }
         }; 
         string raw = _query.Values(values2).ToSql();
-        Assert.AreEqual(" VALUES (0, 'Test1', NULL), (1, 'Test2', 0.123);", raw);
+        Assert.AreEqual(" VALUES (0, 'Test1', NULL), (1, 'Test2', 0.123)", raw);
     }
 }

@@ -10,7 +10,7 @@ public class TestGroupBy : BaseConfig
     public void WithColumns()
     {
         string raw = _query.GroupBy(_columns).ToSql();
-        Assert.AreEqual($" GROUP BY {_columns[0]}, {_columns[1]}, {_columns[2]};", raw);
+        Assert.AreEqual($" GROUP BY {_columns[0]}, {_columns[1]}, {_columns[2]}", raw);
     }
 
     [Test]

@@ -9,13 +9,13 @@ public class TestUpdate : BaseConfig
     public void WithSchemaAndTable()
     {
         string raw = _query.Update(_schema, _table).ToSql();
-        Assert.AreEqual($"UPDATE [{_schema}].[{_table}];", raw);
+        Assert.AreEqual($"UPDATE [{_schema}].[{_table}]", raw);
     }
     
     [Test]
     public void WithTable()
     {
         string raw = _query.Update(_table).ToSql();
-        Assert.AreEqual($"UPDATE [{_table}];", raw);
+        Assert.AreEqual($"UPDATE [{_table}]", raw);
     }
 }
