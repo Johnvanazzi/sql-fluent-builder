@@ -7,12 +7,6 @@ namespace Tests;
 
 public class ConverterTest
 {
-    [SetUp]
-    public void SetUp()
-    {
-        
-    }
-
     [Test]
     public void TestObjectToSql()
     {
