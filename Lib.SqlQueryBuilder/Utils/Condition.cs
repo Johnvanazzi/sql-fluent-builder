@@ -1,6 +1,6 @@
 ﻿using Lib.QueryBuilder.Operators;
 
-namespace Lib.QueryBuilder;
+namespace Lib.QueryBuilder.Utils;
 
 public class Condition
 {

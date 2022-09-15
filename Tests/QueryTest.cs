@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Lib.QueryBuilder;
 using Lib.QueryBuilder.Operators;
+using Lib.QueryBuilder.Utils;
 using NUnit.Framework;
 
 namespace Tests;

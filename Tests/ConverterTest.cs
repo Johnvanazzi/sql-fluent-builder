@@ -1,6 +1,6 @@
 ﻿using System;
-using Lib.QueryBuilder;
 using Lib.QueryBuilder.Operators;
+using Lib.QueryBuilder.Utils;
 using NUnit.Framework;
 
 namespace Tests;

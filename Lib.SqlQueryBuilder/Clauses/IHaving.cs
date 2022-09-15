@@ -1,4 +1,6 @@
-﻿namespace Lib.QueryBuilder.Clauses;
+﻿using Lib.QueryBuilder.Utils;
+
+namespace Lib.QueryBuilder.Clauses;
 
 public interface IHaving : IQuery
 {
