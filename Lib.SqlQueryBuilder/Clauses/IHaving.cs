@@ -2,7 +2,7 @@
 
 namespace Lib.QueryBuilder.Clauses;
 
-public interface IHaving : IQuery
+public interface IHaving : IOrderBy
 {
     public IOrderBy Having(Condition[] conditions);
     public IOrderBy Having(Condition condition);

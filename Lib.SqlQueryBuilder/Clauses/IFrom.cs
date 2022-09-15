@@ -2,6 +2,6 @@
 
 public interface IFrom : IQuery
 {
-    public IWhere From(string schema, string table);
-    public IWhere From(string table);
+    public IJoin From(string schema, string table);
+    public IJoin From(string table);
 }

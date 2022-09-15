@@ -29,11 +29,10 @@ public class QueryTest
     [Test]
     public void TestClear()
     {
-        Assert.NotNull(_query);
-
         _query.Select().From(_table);
         _query.Clear();
-        
+
+        Assert.NotNull(_query);
         Assert.AreEqual(";",_query.ToSql());
     }
 
@@ -279,5 +278,23 @@ public class QueryTest
         };
         string raw = _query.Having(cond2).ToSql();
         Assert.AreEqual($" HAVING (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5));", raw);
+    }
+
+    [Test]
+    public void TestJoinOn()
+    {
+        string raw1 = _query.InnerJoin(_schema, _table).On("key1", "key2").ToSql();
+        
+        var conditions = new Condition[]
+        {
+            new(_columns[0], Comparer.Equals, 1, Connective.And),
+            new(_columns[1], Comparer.Is, false)
+        };
+        
+        _query.Clear();
+        string raw2 = _query.InnerJoin(_schema, _table).On("key1", "key2", Connective.And, conditions).ToSql();
+
+        Assert.AreEqual($" INNER JOIN [{_schema}].[{_table}] ON key1 = key2;", raw1);
+        Assert.AreEqual($" INNER JOIN [{_schema}].[{_table}] ON key1 = key2 AND ({_columns[0]} = 1) AND ({_columns[1]} IS FALSE);", raw2);
     }
 }

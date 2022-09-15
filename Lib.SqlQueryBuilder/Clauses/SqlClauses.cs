@@ -4,18 +4,18 @@ using Lib.QueryBuilder.Utils;
 
 namespace Lib.QueryBuilder.Clauses;
 
-public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere, IHaving
+public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IHaving, IJoin, IOn
 {
     protected readonly StringBuilder Sb = new();
     
-    public IWhere From(string schema, string table)
+    public IJoin From(string schema, string table)
     {
         Sb.Append($" FROM [{schema}].[{table}]");
 
         return this;
     }
 
-    public IWhere From(string table)
+    public IJoin From(string table)
     {
         Sb.Append($" FROM [{table}]");
 
@@ -43,7 +43,7 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere, IHaving
         return this;
     }
 
-    public IOrderBy OrderBy(string[] columns)
+    public IQuery OrderBy(string[] columns)
     {
         if (columns.Length < 1)
             throw new ArgumentException("Array of columns is empty");
@@ -134,5 +134,85 @@ public class SqlClauses : IFrom, ISet, IPostWhere, IValues, IWhere, IHaving
             if (cond.Connective != null)
                 Sb.Append($" {cond.Connective.Value.ToSql()} ");
         }
+    }
+    
+    public IOn LeftJoin(string schema,string table) {
+        Sb.Append($" LEFT JOIN [{schema}].[{table}]");
+        
+        return this;
+    }
+    
+    public IOn LeftJoin(string table)
+    {
+        Sb.Append($" LEFT JOIN [{table}]");
+
+        return this;
+    }
+    
+    public IOn RightJoin(string schema,string table) {
+        Sb.Append($" RIGHT JOIN [{schema}].[{table}]");
+        
+        return this;
+    }
+    
+    public IOn RightJoin(string table)
+    {
+        Sb.Append($" RIGHT JOIN [{table}]");
+
+        return this;
+    }
+    
+    public IOn CrossJoin(string schema,string table) {
+        Sb.Append($" CROSS JOIN [{schema}].[{table}]");
+        
+        return this;
+    }
+    
+    public IOn CrossJoin(string table)
+    {
+        Sb.Append($" CROSS JOIN [{table}]");
+
+        return this;
+    }
+    
+    public IOn OuterJoin(string schema,string table) {
+        Sb.Append($" OUTER JOIN [{schema}].[{table}]");
+        
+        return this;
+    }
+    
+    public IOn OuterJoin(string table)
+    {
+        Sb.Append($" OUTER JOIN [{table}]");
+
+        return this;
+    }
+    
+    public IOn InnerJoin(string schema,string table) {
+        Sb.Append($" INNER JOIN [{schema}].[{table}]");
+        
+        return this;
+    }
+    
+    public IOn InnerJoin(string table)
+    {
+        Sb.Append($" INNER JOIN [{table}]");
+
+        return this;
+    }
+
+    public IJoin On(string leftKey, string rightKey)
+    {
+        Sb.Append($" ON {leftKey} = {rightKey}");
+
+        return this;
+    }
+
+    public IJoin On(string leftKey, string rightKey, Connective connective, Condition[] additionalConditions)
+    {
+        Sb.Append($" ON {leftKey} = {rightKey} {connective.ToSql()} ");
+        NestedConditions(additionalConditions);
+        
+        return this;
     }
 }
