@@ -72,6 +72,27 @@ public class SqlClauses : IFrom, ISet, IValues, IHaving, IJoin, IOn
     public IGroupBy Where(string column, Comparer comparer, object? value)
         => Where(new Condition(column, comparer, value));
 
+    public IGroupBy WhereExists(Query subQuery)
+    {
+        Sb.Append(" WHERE EXISTS (").Append(subQuery.Sb).Append(')');
+
+        return this;
+    }
+
+    public IGroupBy WhereAll(string column, Comparer comparer, Query subQuery)
+    {
+        Sb.Append($" WHERE {column} {comparer.ToSql()} ALL (").Append(subQuery.Sb).Append(')');
+
+        return this;
+    }
+
+    public IGroupBy WhereAny(string column, Comparer comparer, Query subQuery)
+    {
+        Sb.Append($" WHERE {column} {comparer.ToSql()} ANY (").Append(subQuery.Sb).Append(')');
+        
+        return this;
+    }
+
     public IValues Values(object?[] values)
     {
         if (values.Length < 1)

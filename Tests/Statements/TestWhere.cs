@@ -1,4 +1,5 @@
 using System;
+using Lib.QueryBuilder;
 using Lib.QueryBuilder.Operators;
 using Lib.QueryBuilder.Utils;
 using NUnit.Framework;
@@ -43,5 +44,35 @@ public class TestWhere : BaseConfig
         };
         string raw = _query.Where(cond).ToSql();
         Assert.AreEqual($" WHERE (({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5))", raw);
+    }
+    
+    [Test]
+    public void WhereExists()
+    {
+        var subQuery = new Query();
+        subQuery.Select().From(_table);
+        string raw = _query.WhereExists(subQuery).ToSql();
+        
+        Assert.AreEqual($" WHERE EXISTS (SELECT * FROM [{_table}])", raw);
+    }
+    
+    [Test]
+    public void WhereAny()
+    {
+        var subQuery = new Query();
+        subQuery.Select().From(_table);
+        string raw = _query.WhereAny(_columns[0], Comparer.Differs, subQuery).ToSql();
+        
+        Assert.AreEqual($" WHERE {_columns[0]} != ANY (SELECT * FROM [{_table}])", raw);
+    }
+    
+    [Test]
+    public void WhereAll()
+    {
+        var subQuery = new Query();
+        subQuery.Select().From(_table);
+        string raw = _query.WhereAll(_columns[0], Comparer.Equals, subQuery).ToSql();
+        
+        Assert.AreEqual($" WHERE {_columns[0]} = ALL (SELECT * FROM [{_table}])", raw);
     }
 }
