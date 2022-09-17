@@ -1,13 +1,11 @@
-﻿using System.Text;
+using Lib.QueryBuilder.Clauses;
 using Lib.QueryBuilder.Operators;
 using Lib.QueryBuilder.Utils;
 
-namespace Lib.QueryBuilder.Clauses;
+namespace Lib.QueryBuilder;
 
-public class SqlClauses : IFrom, ISet, IValues, IHaving, IJoin, IOn
+public partial class Query
 {
-    protected readonly StringBuilder Sb = new();
-    
     public IJoin From(string schema, string table)
     {
         Sb.Append($" FROM [{schema}].[{table}]");

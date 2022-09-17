@@ -1,8 +1,8 @@
-﻿using Lib.QueryBuilder.Clauses;
+using Lib.QueryBuilder.Clauses;
 
-namespace Lib.QueryBuilder.Verbs;
+namespace Lib.QueryBuilder;
 
-public class SqlVerbs : SqlClauses, ISelect, IUpdate, IInsert, IDelete
+public partial class Query
 {
     public IFrom Select()
     {
