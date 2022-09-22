@@ -6,7 +6,7 @@ public partial class Query
 {
     public IFrom Select()
     {
-        Sb.Append("SELECT *");
+        _sb.Append("SELECT *");
 
         return this;
     }
@@ -16,35 +16,35 @@ public partial class Query
         if (columns.Length < 1)
             throw new ArgumentException("Array of columns must not be empty");
 
-        Sb.Append("SELECT ").AppendJoin(", ", columns);
+        _sb.Append("SELECT ").AppendJoin(", ", columns);
 
         return this;
     }
 
     public ISet Update(string table)
     {
-        Sb.Append($"UPDATE [{table}]");
+        _sb.Append($"UPDATE [{table}]");
 
         return this;
     }
 
     public ISet Update(string schema, string table)
     {
-        Sb.Append($"UPDATE [{schema}].[{table}]");
+        _sb.Append($"UPDATE [{schema}].[{table}]");
 
         return this;
     }
     
     public IWhere Delete(string table)
     {
-        Sb.Append($"DELETE FROM [{table}]");
+        _sb.Append($"DELETE FROM [{table}]");
 
         return this;
     }
     
     public IWhere Delete(string schema, string table)
     {
-        Sb.Append($"DELETE FROM [{schema}].[{table}]");
+        _sb.Append($"DELETE FROM [{schema}].[{table}]");
 
         return this;
     }
@@ -54,14 +54,14 @@ public partial class Query
         if (columns.Length < 1)
             throw new ArgumentException("No column was specified.");
 
-        Sb.Append($"INSERT INTO [{schema}].[{table}] (").AppendJoin(", ", columns).Append(')');
+        _sb.Append($"INSERT INTO [{schema}].[{table}] (").AppendJoin(", ", columns).Append(')');
 
         return this;
     }
 
     public IValues Insert(string schema, string table)
     {
-        Sb.Append($"INSERT INTO [{schema}].[{table}]");
+        _sb.Append($"INSERT INTO [{schema}].[{table}]");
 
         return this;
     }
@@ -71,14 +71,14 @@ public partial class Query
         if (columns.Length < 1)
             throw new ArgumentException("No column was specified.");
         
-        Sb.Append($"INSERT INTO [{table}] (").AppendJoin(", ", columns).Append(')');
+        _sb.Append($"INSERT INTO [{table}] (").AppendJoin(", ", columns).Append(')');
 
         return this;
     }
 
     public IValues Insert(string table)
     {
-        Sb.Append($"INSERT INTO [{table}]");
+        _sb.Append($"INSERT INTO [{table}]");
 
         return this;
     }

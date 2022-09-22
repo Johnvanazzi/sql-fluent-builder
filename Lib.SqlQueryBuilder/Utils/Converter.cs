@@ -1,4 +1,5 @@
-﻿using Lib.QueryBuilder.Operators;
+﻿using System.Text;
+using Lib.QueryBuilder.Operators;
 
 namespace Lib.QueryBuilder.Utils;
 
@@ -18,7 +19,10 @@ public static class Converter
         float => $"{obj}",
         Guid => $"'{obj}'",
         DateTime val => $"'{val:s}'",
-        _ => throw new ArgumentOutOfRangeException(nameof(obj), obj, $"Could not convert value to SQL string because the Type '{obj.GetType()}' provided is not supported")
+        Array => ArrayToSqlString(obj),
+        Query => obj.ToSql(),
+        _ => throw new ArgumentOutOfRangeException(nameof(obj), obj,
+            $"Could not convert value to SQL string because the Type '{obj.GetType()}' provided is not supported")
     };
 
     public static string ToSql(this Connective connective) => connective switch
@@ -30,6 +34,9 @@ public static class Converter
     
     public static string ToSql(this Comparer comparer) => comparer switch
     {
+        Comparer.All => "ALL",
+        Comparer.Any => "ANY",
+        Comparer.Between => "BETWEEN",
         Comparer.Differs => "!=",
         Comparer.Equals => "=",
         Comparer.GreaterEqual => ">=",
@@ -39,6 +46,16 @@ public static class Converter
         Comparer.Less => "<",
         Comparer.LessEqual => "<=",
         Comparer.Like => "LIKE",
+        Comparer.NotLike => "NOT LIKE",
+        Comparer.NotBetween => "NOT BETWEEN",
         _ => throw new ArgumentOutOfRangeException(nameof(comparer), comparer, "Comparer Operator does not exist;")
     };
+
+    private static string ArrayToSqlString(object? array)
+    {
+        var sb = new StringBuilder();
+        sb.Append('(').AppendJoin(", ", array as Array).Append(')');
+        
+        return sb.ToString();
+    }
 }

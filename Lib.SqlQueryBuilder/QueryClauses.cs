@@ -8,14 +8,14 @@ public partial class Query
 {
     public IJoin From(string schema, string table)
     {
-        Sb.Append($" FROM [{schema}].[{table}]");
+        _sb.Append($" FROM [{schema}].[{table}]");
 
         return this;
     }
 
     public IJoin From(string table)
     {
-        Sb.Append($" FROM [{table}]");
+        _sb.Append($" FROM [{table}]");
 
         return this;
     }
@@ -25,7 +25,7 @@ public partial class Query
         if (columnsValues.Count < 1)
             throw new ArgumentException("No values or columns were provided");
 
-        Sb.Append(" SET ")
+        _sb.Append(" SET ")
           .AppendJoin(", ", columnsValues.Select(pair => $"{pair.Key}={pair.Value.ToSql()}"));
 
         return this;
@@ -36,7 +36,7 @@ public partial class Query
         if (columns.Length < 1)
             throw new ArgumentException("Array of values is empty");
 
-        Sb.Append(" GROUP BY ").AppendJoin(", ", columns);
+        _sb.Append(" GROUP BY ").AppendJoin(", ", columns);
 
         return this;
     }
@@ -46,47 +46,14 @@ public partial class Query
         if (columns.Length < 1)
             throw new ArgumentException("Array of columns is empty");
 
-        Sb.Append(" ORDER BY ").AppendJoin(", ", columns);
+        _sb.Append(" ORDER BY ").AppendJoin(", ", columns);
 
         return this;
     }
 
-    public IGroupBy Where(Condition condition)
+    public IGroupBy Where(IConnective condition)
     {
-        Sb.Append($" WHERE ({condition.Column} {condition.Comparer!.Value.ToSql()} {condition.Value.ToSql()})");
-
-        return this;
-    }
-
-    public IGroupBy Where(Condition[] conditions)
-    {
-        Sb.Append(" WHERE (");        
-        NestedConditions(conditions);
-        Sb.Append(')');
-
-        return this;
-    }
-
-    public IGroupBy Where(string column, Comparer comparer, object? value)
-        => Where(new Condition(column, comparer, value));
-
-    public IGroupBy WhereExists(Query subQuery)
-    {
-        Sb.Append(" WHERE EXISTS (").Append(subQuery.Sb).Append(')');
-
-        return this;
-    }
-
-    public IGroupBy WhereAll(string column, Comparer comparer, Query subQuery)
-    {
-        Sb.Append($" WHERE {column} {comparer.ToSql()} ALL (").Append(subQuery.Sb).Append(')');
-
-        return this;
-    }
-
-    public IGroupBy WhereAny(string column, Comparer comparer, Query subQuery)
-    {
-        Sb.Append($" WHERE {column} {comparer.ToSql()} ANY (").Append(subQuery.Sb).Append(')');
+        _sb.Append(" WHERE ").Append(condition.Sb);
         
         return this;
     }
@@ -96,7 +63,7 @@ public partial class Query
         if (values.Length < 1)
             throw new ArgumentException("Array of values is empty");
 
-        Sb.Append(" VALUES (").AppendJoin(", ", values.Select(Converter.ToSql)).Append(')');
+        _sb.Append(" VALUES (").AppendJoin(", ", values.Select(Converter.ToSql)).Append(')');
 
         return this;
     }
@@ -106,132 +73,103 @@ public partial class Query
         if (rows.Length < 1)
             throw new ArgumentException("Array of rows is empty");
 
-        Sb.Append(" VALUES ");
+        _sb.Append(" VALUES ");
 
         foreach (object?[] row in rows)
         {
-            Sb.Append('(').AppendJoin(", ", row.Select(Converter.ToSql)).Append("), ");
+            _sb.Append('(').AppendJoin(", ", row.Select(Converter.ToSql)).Append("), ");
         }
 
-        Sb.Remove(Sb.Length - 2, 2);
+        _sb.Remove(_sb.Length - 2, 2);
         
         return this;
     }
     
-    public string ToSql() => Sb.ToString();
+    public string ToSql() => _sb.ToString();
 
-    public IOrderBy Having(Condition[] conditions)
+    public IOrderBy Having(IConnective condition)
     {
-        Sb.Append(" HAVING (");        
-        NestedConditions(conditions);
-        Sb.Append(')');
+        _sb.Append(" HAVING ").Append(condition.Sb);
 
         return this;
     }
 
-    public IOrderBy Having(Condition condition)
-    {
-        Sb.Append($" HAVING ({condition.Column} {condition.Comparer!.Value.ToSql()} {condition.Value.ToSql()})");
-
-        return this;
-    }
-
-    private void NestedConditions(Condition[] conditions)
-    {
-        foreach (Condition cond in conditions)
-        {
-            if (cond.SubConditions != null)
-            {
-                Sb.Append('(');
-                NestedConditions(cond.SubConditions);
-                Sb.Append(')');
-            }
-            
-            if (cond.Column != null)
-                Sb.Append($"({cond.Column} {cond.Comparer!.Value.ToSql()} {cond.Value.ToSql()})");
-
-            if (cond.Connective != null)
-                Sb.Append($" {cond.Connective.Value.ToSql()} ");
-        }
-    }
-    
     public IOn LeftJoin(string schema,string table) {
-        Sb.Append($" LEFT JOIN [{schema}].[{table}]");
+        _sb.Append($" LEFT JOIN [{schema}].[{table}]");
         
         return this;
     }
     
     public IOn LeftJoin(string table)
     {
-        Sb.Append($" LEFT JOIN [{table}]");
+        _sb.Append($" LEFT JOIN [{table}]");
 
         return this;
     }
     
     public IOn RightJoin(string schema,string table) {
-        Sb.Append($" RIGHT JOIN [{schema}].[{table}]");
+        _sb.Append($" RIGHT JOIN [{schema}].[{table}]");
         
         return this;
     }
     
     public IOn RightJoin(string table)
     {
-        Sb.Append($" RIGHT JOIN [{table}]");
+        _sb.Append($" RIGHT JOIN [{table}]");
 
         return this;
     }
     
     public IOn CrossJoin(string schema,string table) {
-        Sb.Append($" CROSS JOIN [{schema}].[{table}]");
+        _sb.Append($" CROSS JOIN [{schema}].[{table}]");
         
         return this;
     }
     
     public IOn CrossJoin(string table)
     {
-        Sb.Append($" CROSS JOIN [{table}]");
+        _sb.Append($" CROSS JOIN [{table}]");
 
         return this;
     }
     
     public IOn OuterJoin(string schema,string table) {
-        Sb.Append($" OUTER JOIN [{schema}].[{table}]");
+        _sb.Append($" OUTER JOIN [{schema}].[{table}]");
         
         return this;
     }
     
     public IOn OuterJoin(string table)
     {
-        Sb.Append($" OUTER JOIN [{table}]");
+        _sb.Append($" OUTER JOIN [{table}]");
 
         return this;
     }
     
     public IOn InnerJoin(string schema,string table) {
-        Sb.Append($" INNER JOIN [{schema}].[{table}]");
+        _sb.Append($" INNER JOIN [{schema}].[{table}]");
         
         return this;
     }
     
     public IOn InnerJoin(string table)
     {
-        Sb.Append($" INNER JOIN [{table}]");
+        _sb.Append($" INNER JOIN [{table}]");
 
         return this;
     }
 
     public IJoin On(string leftKey, string rightKey)
     {
-        Sb.Append($" ON {leftKey} = {rightKey}");
+        _sb.Append($" ON {leftKey} = {rightKey}");
 
         return this;
     }
 
-    public IJoin On(string leftKey, string rightKey, Connective connective, Condition[] additionalConditions)
+    public IJoin On(string leftKey, string rightKey, Connective connective, IConnective condition)
     {
-        Sb.Append($" ON {leftKey} = {rightKey} {connective.ToSql()} ");
-        NestedConditions(additionalConditions);
-        
+        _sb.Append($" ON {leftKey} = {rightKey} {connective.ToSql()} ").Append(condition.Sb);
+
         return this;
     }
 }
