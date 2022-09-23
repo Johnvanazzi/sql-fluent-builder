@@ -5,7 +5,7 @@ using Lib.QueryBuilder.Operators;
 using Lib.QueryBuilder.Utils;
 using NUnit.Framework;
 
-namespace Tests.Utils;
+namespace Tests.UtilsTests;
 
 public class TestConverter
 {
@@ -13,15 +13,15 @@ public class TestConverter
     public void When_ToSql_IsCalled_In_Object()
     {
         string nullResult = Converter.ToSql(null);
-        string intResult = ((int)1).ToSql();
+        string intResult = 1.ToSql();
         string longResult = ((long)1e+10).ToSql();
-        string charResult = ((char)'c').ToSql();
+        string charResult = 'c'.ToSql();
         string stringResult = ((string)"test string").ToSql();
-        string byteResult = ((byte)1).ToSql();
+        string byteResult = 1.ToSql();
         string trueResult = true.ToSql();
         string falseResult = false.ToSql();
         string decimalResult = ((decimal)12.3456789).ToSql();
-        string doubleResult = ((double)12.3456789).ToSql();
+        string doubleResult = 12.3456789.ToSql();
         string floatResult = ((float)12.3456).ToSql();
         string guidResult = Guid.Empty.ToSql();
         string dateResult = new DateTime(1970, 1, 1, 0, 0, 0).ToSql();

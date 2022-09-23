@@ -3,7 +3,7 @@ using Lib.QueryBuilder.Operators;
 using Lib.QueryBuilder.Utils;
 using NUnit.Framework;
 
-namespace Tests.Query;
+namespace Tests.QueryTests;
 
 [TestFixture]
 public class TestOn : BaseConfig

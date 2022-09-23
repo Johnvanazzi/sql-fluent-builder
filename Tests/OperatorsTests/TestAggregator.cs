@@ -3,7 +3,7 @@ using FluentAssertions.Execution;
 using Lib.QueryBuilder.Operators;
 using NUnit.Framework;
 
-namespace Tests.Operators;
+namespace Tests.OperatorsTests;
 
 public class TestAggregator
 {
@@ -16,7 +16,7 @@ public class TestAggregator
     }
 
     [Test]
-    public void When_Sum_IsCalled()
+    public void When_Sum_Is_Called()
     {
         string sumResult = Aggregator.Sum();
         string sumColumnResult = Aggregator.Sum(_column);
@@ -29,7 +29,7 @@ public class TestAggregator
     }
 
     [Test]
-    public void When_Avg_IsCalled()
+    public void When_Avg_Is_Called()
     {
         string avgResult = Aggregator.Avg();
         string avgColumnResult = Aggregator.Avg(_column);
@@ -42,7 +42,7 @@ public class TestAggregator
     }
 
     [Test]
-    public void When_Min_IsCalled()
+    public void When_Min_Is_Called()
     {
         string minResult = Aggregator.Min();
         string minColumnResult = Aggregator.Min(_column);
@@ -55,7 +55,7 @@ public class TestAggregator
     }
 
     [Test]
-    public void When_Max_IsCalled()
+    public void When_Max_Is_Called()
     {
         string maxResult = Aggregator.Max();
         string maxColumnResult = Aggregator.Max(_column);
@@ -68,7 +68,7 @@ public class TestAggregator
     }
 
     [Test]
-    public void When_Count_IsCalled()
+    public void When_Count_Is_Called()
     {
         string countResult = Aggregator.Count();
         string countColumnResult = Aggregator.Count(_column);

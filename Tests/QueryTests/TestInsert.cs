@@ -3,7 +3,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using NUnit.Framework;
 
-namespace Tests.Query;
+namespace Tests.QueryTests;
 
 [TestFixture]
 public class TestInsert : BaseConfig

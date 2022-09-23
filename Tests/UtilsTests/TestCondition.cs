@@ -1,17 +1,18 @@
 using System;
 using FluentAssertions;
+using Lib.QueryBuilder;
 using Lib.QueryBuilder.Operators;
 using Lib.QueryBuilder.Utils;
 using NUnit.Framework;
 
-namespace Tests.Utils;
+namespace Tests.UtilsTests;
 
 public class TestCondition
 {
     private Condition _condition;
     private string _column;
     private string _table;
-    private Lib.QueryBuilder.Query _subQuery;
+    private Query _subQuery;
 
     [OneTimeSetUp]
     public void SetUp()
@@ -19,7 +20,7 @@ public class TestCondition
         _condition = new Condition();
         _column = "col";
         _table = "table";
-        _subQuery = new Lib.QueryBuilder.Query();
+        _subQuery = new Query();
 
         _subQuery.Select().From(_table);
     }

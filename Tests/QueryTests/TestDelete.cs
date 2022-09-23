@@ -1,7 +1,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Tests.Query;
+namespace Tests.QueryTests;
 
 [TestFixture]
 public class TestDelete : BaseConfig

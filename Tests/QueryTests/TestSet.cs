@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Tests.Query;
+namespace Tests.QueryTests;
 
 [TestFixture]
 public class TestSet : BaseConfig

@@ -11,6 +11,7 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     {
         _sb = new StringBuilder();
     }
-    
+
+    public string ToSql() => _sb.ToString();
     public void Clear() => _sb.Clear();
 }
