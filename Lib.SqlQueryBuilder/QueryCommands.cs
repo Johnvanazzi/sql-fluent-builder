@@ -21,33 +21,12 @@ public partial class Query
         return this;
     }
 
-    public ISet Update(string table)
-    {
-        _sb.Append($"UPDATE [{table}]");
-
-        return this;
-    }
-
-    public ISet Update(string schema, string table)
-    {
-        _sb.Append($"UPDATE [{schema}].[{table}]");
-
-        return this;
-    }
-    
-    public IWhere Delete(string table)
-    {
-        _sb.Append($"DELETE FROM [{table}]");
-
-        return this;
-    }
-    
-    public IWhere Delete(string schema, string table)
-    {
-        _sb.Append($"DELETE FROM [{schema}].[{table}]");
-
-        return this;
-    }
+    public ISet Update(string table) => AppendCommand("UPDATE", table);
+    public ISet Update(string schema, string table) => AppendCommand("UPDATE", schema, table);
+    public IWhere Delete(string table) => AppendCommand("DELETE FROM", table);
+    public IWhere Delete(string schema, string table) => AppendCommand("DELETE FROM", schema, table);
+    public IValues Insert(string table) => AppendCommand("INSERT INTO", table);
+    public IValues Insert(string schema, string table) => AppendCommand("INSERT INTO", schema, table);
 
     public IValues Insert(string schema, string table, string[] columns)
     {
@@ -59,26 +38,26 @@ public partial class Query
         return this;
     }
 
-    public IValues Insert(string schema, string table)
-    {
-        _sb.Append($"INSERT INTO [{schema}].[{table}]");
-
-        return this;
-    }
-
     public IValues Insert(string table, string[] columns)
     {
         if (columns.Length < 1)
             throw new ArgumentException("No column was specified.");
-        
+
         _sb.Append($"INSERT INTO [{table}] (").AppendJoin(", ", columns).Append(')');
 
         return this;
     }
 
-    public IValues Insert(string table)
+    private Query AppendCommand(string statement, string table)
     {
-        _sb.Append($"INSERT INTO [{table}]");
+        _sb.Append($"{statement} [{table}]");
+
+        return this;
+    }
+
+    private Query AppendCommand(string statement, string schema, string table)
+    {
+        _sb.Append($"{statement} [{schema}].[{table}]");
 
         return this;
     }
