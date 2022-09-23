@@ -19,8 +19,7 @@ public static class Converter
         float => $"{obj}",
         Guid => $"'{obj}'",
         DateTime val => $"'{val:s}'",
-        Array => ArrayToSqlString(obj),
-        Query => obj.ToSql(),
+        IEnumerable<object?> objects => ArrayToSql(objects),
         _ => throw new ArgumentOutOfRangeException(nameof(obj), obj,
             $"Could not convert value to SQL string because the Type '{obj.GetType()}' provided is not supported")
     };
@@ -31,7 +30,7 @@ public static class Converter
         Connective.Or => "OR",
         _ => throw new ArgumentOutOfRangeException(nameof(connective), connective, "Logical Operator does not exist;")
     };
-    
+
     public static string ToSql(this Comparer comparer) => comparer switch
     {
         Comparer.All => "ALL",
@@ -41,21 +40,25 @@ public static class Converter
         Comparer.Equals => "=",
         Comparer.GreaterEqual => ">=",
         Comparer.Greater => ">",
+        Comparer.In => "IN",
         Comparer.Is => "IS",
         Comparer.IsNot => "IS NOT",
         Comparer.Less => "<",
         Comparer.LessEqual => "<=",
         Comparer.Like => "LIKE",
-        Comparer.NotLike => "NOT LIKE",
         Comparer.NotBetween => "NOT BETWEEN",
+        Comparer.NotIn => "NOT IN",
+        Comparer.NotLike => "NOT LIKE",
         _ => throw new ArgumentOutOfRangeException(nameof(comparer), comparer, "Comparer Operator does not exist;")
     };
 
-    private static string ArrayToSqlString(object? array)
+    private static string ArrayToSql(this IEnumerable<object?> array)
     {
         var sb = new StringBuilder();
-        sb.Append('(').AppendJoin(", ", array as Array).Append(')');
-        
+        sb.Append('(')
+            .AppendJoin(", ", array.Select(ToSql))
+            .Append(')');
+
         return sb.ToString();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Lib.QueryBuilder.Clauses;
 
-namespace Lib.QueryBuilder.Verbs;
+namespace Lib.QueryBuilder.Clauses;
 
 public interface IUpdate
 {

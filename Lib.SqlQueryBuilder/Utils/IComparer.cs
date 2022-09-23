@@ -14,8 +14,8 @@ public interface IComparer
     public IConnective GreaterEqual(string column, object? value);
     public IConnective In(string column, params object?[] values);
     public IConnective In(string column, Query subQuery);
-    public IConnective Is(string column, object? value);
-    public IConnective IsNot(string column, object? value);
+    public IConnective IsNull(string column);
+    public IConnective IsNotNull(string column);
     public IConnective Less(string column, object? value);
     public IConnective LessEqual(string column, object? value);
     public IConnective Like(string column, string value);
