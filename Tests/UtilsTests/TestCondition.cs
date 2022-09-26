@@ -194,7 +194,7 @@ public class TestCondition
     [Test]
     public void When_Connective_Or_Is_Used()
     {
-        string orResult = _condition.Equals(_column, "A").Or().IsNotNull(_column).ToSql();
+        string orResult = _condition.Equals(_column, "A").Or.IsNotNull(_column).ToSql();
         
         orResult.Should().Be($"({_column} = 'A') OR ({_column} IS NOT NULL)");   
     }
@@ -202,7 +202,7 @@ public class TestCondition
     [Test]
     public void When_Connective_And_Is_Used()
     {
-        string andResult = _condition.Less(_column, 0).And().Greater(_column, 2).ToSql();
+        string andResult = _condition.Less(_column, 0).And.Greater(_column, 2).ToSql();
 
         andResult.Should().Be($"({_column} < 0) AND ({_column} > 2)");   
     }

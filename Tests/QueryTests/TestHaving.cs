@@ -12,11 +12,11 @@ public class TestHaving : BaseConfig
     public void When_Complex_Condition_Is_Passed()
     {
         var conditions = new Condition()
-            .GreaterEqual(_columns[0], new DateTime(2022, 01, 01)).And()
+            .GreaterEqual(_columns[0], new DateTime(2022, 01, 01)).And
             .Nested(c => c
-                .Greater(_columns[1], 1.2).Or()
+                .Greater(_columns[1], 1.2).Or
                 .GreaterEqual(_columns[2], 2)
-            ).Or()
+            ).Or
             .LessEqual(_columns[2], 5);
 
         string result = _query.Having(conditions).ToSql();

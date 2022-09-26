@@ -6,6 +6,6 @@ public interface IConnective
 {
     public string ToSql();
     public StringBuilder Sb { get; }
-    public IComparer And();
-    public IComparer Or();
+    public IComparer And { get; }
+    public IComparer Or { get; }
 }

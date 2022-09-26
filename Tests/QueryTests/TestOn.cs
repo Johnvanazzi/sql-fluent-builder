@@ -11,7 +11,7 @@ public class TestOn : BaseConfig
     public void When_Keys_Connective_And_Condition_Are_Passed()
     {
         var conditions = new Condition()
-            .Equals(_columns[0], 1).And()
+            .Equals(_columns[0], 1).And
             .IsNull(_columns[1]);
 
         string result = _query.On("key1", "key2", Connective.And, conditions).ToSql();

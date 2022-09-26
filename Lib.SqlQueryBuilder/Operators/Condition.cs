@@ -7,6 +7,24 @@ public class Condition : IComparer, IConnective
 {
     public StringBuilder Sb { get; }
 
+    IComparer IConnective.And
+    {
+        get
+        {
+            Sb.Append(" AND ");
+            return this;
+        }
+    }
+    
+    IComparer IConnective.Or
+    {
+        get
+        {
+            Sb.Append(" OR ");
+            return this;
+        }
+    }
+
     public Condition()
     {
         Sb = new StringBuilder();
