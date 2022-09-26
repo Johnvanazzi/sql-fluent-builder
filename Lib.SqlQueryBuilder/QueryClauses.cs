@@ -1,6 +1,7 @@
 using Lib.QueryBuilder.Clauses;
 using Lib.QueryBuilder.Operators;
 using Lib.QueryBuilder.Utils;
+using Lib.QueryBuilder.Validations;
 
 namespace Lib.QueryBuilder;
 
@@ -19,8 +20,7 @@ public partial class Query
 
     public IHaving GroupBy(string[] columns)
     {
-        if (columns.Length < 1)
-            throw new ArgumentException("Array of values is empty");
+        ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
         _sb.Append(" GROUP BY ").AppendJoin(", ", columns);
 
@@ -29,8 +29,7 @@ public partial class Query
 
     public IQuery OrderBy(string[] columns)
     {
-        if (columns.Length < 1)
-            throw new ArgumentException("Array of columns is empty");
+        ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
         _sb.Append(" ORDER BY ").AppendJoin(", ", columns);
 
@@ -39,8 +38,7 @@ public partial class Query
 
     public IValues Values(object?[] values)
     {
-        if (values.Length < 1)
-            throw new ArgumentException("Array of values is empty");
+        ArrayValidations.ItsNotEmpty(values, nameof(values));
 
         _sb.Append(" VALUES (").AppendJoin(", ", values.Select(Converter.ToSql)).Append(')');
 
@@ -49,8 +47,7 @@ public partial class Query
 
     public IValues Values(object?[][] rows)
     {
-        if (rows.Length < 1)
-            throw new ArgumentException("Array of rows is empty");
+        ArrayValidations.ItsNotEmpty(rows, nameof(rows));
 
         _sb.Append(" VALUES ");
 

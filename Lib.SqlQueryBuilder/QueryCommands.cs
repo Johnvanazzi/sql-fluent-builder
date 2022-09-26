@@ -1,4 +1,5 @@
 using Lib.QueryBuilder.Clauses;
+using Lib.QueryBuilder.Validations;
 
 namespace Lib.QueryBuilder;
 
@@ -13,8 +14,7 @@ public partial class Query
 
     public IFrom Select(params string[] columns)
     {
-        if (columns.Length < 1)
-            throw new ArgumentException("Array of columns must not be empty");
+        ArrayValidations.ItsNotEmpty(columns, "Array of columns is empty.");
 
         _sb.Append("SELECT ").AppendJoin(", ", columns);
 
@@ -30,8 +30,7 @@ public partial class Query
 
     public IValues Insert(string schema, string table, string[] columns)
     {
-        if (columns.Length < 1)
-            throw new ArgumentException("No column was specified.");
+        ArrayValidations.ItsNotEmpty(columns, "Array of columns is empty.");
 
         _sb.Append($"INSERT INTO [{schema}].[{table}] (").AppendJoin(", ", columns).Append(')');
 
@@ -40,8 +39,7 @@ public partial class Query
 
     public IValues Insert(string table, string[] columns)
     {
-        if (columns.Length < 1)
-            throw new ArgumentException("No column was specified.");
+        ArrayValidations.ItsNotEmpty(columns, "Array of columns is empty.");
 
         _sb.Append($"INSERT INTO [{table}] (").AppendJoin(", ", columns).Append(')');
 
