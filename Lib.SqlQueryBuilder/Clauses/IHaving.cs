@@ -1,4 +1,4 @@
-﻿using Lib.QueryBuilder.Utils;
+﻿using Lib.QueryBuilder.Operators;
 
 namespace Lib.QueryBuilder.Clauses;
 

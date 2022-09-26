@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Lib.QueryBuilder.Operators;
+using Lib.QueryBuilder.Utils;
 
-namespace Lib.QueryBuilder.Utils;
+namespace Lib.QueryBuilder.Operators;
 
 public class Condition : IComparer, IConnective
 {

@@ -1,6 +1,4 @@
-using Lib.QueryBuilder.Operators;
-
-namespace Lib.QueryBuilder.Utils;
+namespace Lib.QueryBuilder.Operators;
 
 public interface IComparer
 {

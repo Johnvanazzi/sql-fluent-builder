@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Lib.QueryBuilder.Utils;
+namespace Lib.QueryBuilder.Operators;
 
 public interface IConnective
 {
