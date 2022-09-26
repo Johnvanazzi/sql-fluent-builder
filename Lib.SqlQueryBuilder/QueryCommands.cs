@@ -30,33 +30,35 @@ public partial class Query
 
     public IValues Insert(string schema, string table, string[] columns)
     {
-        ArrayValidations.ItsNotEmpty(columns, "Array of columns is empty.");
+        ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
-        _sb.Append($"INSERT INTO [{schema}].[{table}] (").AppendJoin(", ", columns).Append(')');
+        AppendCommand("INSERT INTO", schema, table)._sb
+            .Append(" (")
+            .AppendJoin(", ", columns)
+            .Append(')');
 
         return this;
     }
 
     public IValues Insert(string table, string[] columns)
     {
-        ArrayValidations.ItsNotEmpty(columns, "Array of columns is empty.");
+        ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
-        _sb.Append($"INSERT INTO [{table}] (").AppendJoin(", ", columns).Append(')');
+        AppendCommand("INSERT INTO", table)._sb
+            .Append(" (")
+            .AppendJoin(", ", columns)
+            .Append(')');
 
         return this;
     }
 
-    private Query AppendCommand(string statement, string table)
+    private Query AppendCommand(string command, string table)
     {
-        _sb.Append($"{statement} [{table}]");
+        _sb.Append($"{command} [{table}]");
 
         return this;
     }
 
-    private Query AppendCommand(string statement, string schema, string table)
-    {
-        _sb.Append($"{statement} [{schema}].[{table}]");
-
-        return this;
-    }
+    private Query AppendCommand(string command, string schema, string table) =>
+        AppendCommand(command, $"{schema}].[{table}");
 }

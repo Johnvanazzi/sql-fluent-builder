@@ -40,7 +40,9 @@ public partial class Query
     {
         ArrayValidations.ItsNotEmpty(values, nameof(values));
 
-        _sb.Append(" VALUES (").AppendJoin(", ", values.Select(Converter.ToSql)).Append(')');
+        _sb.Append(" VALUES (")
+            .AppendJoin(", ", values.Select(Converter.ToSql))
+            .Append(')');
 
         return this;
     }
@@ -53,9 +55,11 @@ public partial class Query
 
         foreach (object?[] row in rows)
         {
-            _sb.Append('(').AppendJoin(", ", row.Select(Converter.ToSql)).Append("), ");
+            _sb.Append('(')
+                .AppendJoin(", ", row.Select(Converter.ToSql))
+                .Append("), ");
         }
-
+        
         _sb.Remove(_sb.Length - 2, 2);
 
         return this;
@@ -97,12 +101,7 @@ public partial class Query
         return this;
     }
 
-    private Query AppendClause(string clause, string schema, string table)
-    {
-        _sb.Append($" {clause} [{schema}].[{table}]");
-
-        return this;
-    }
+    private Query AppendClause(string clause, string schema, string table) => AppendClause(clause, $"{schema}].[{table}");
 
     private Query AppendClause(string clause, IConnective condition)
     {
