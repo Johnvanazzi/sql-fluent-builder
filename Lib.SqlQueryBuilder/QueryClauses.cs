@@ -5,7 +5,7 @@ using Lib.QueryBuilder.Validations;
 
 namespace Lib.QueryBuilder;
 
-public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn, IUnion
+public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
 {
     /// <summary>
     /// Appends as 'SET' clause to the query builder.
@@ -57,7 +57,7 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn, IUnion
     /// </summary>
     /// <param name="values">Object array containing the values to be inserted on table.</param>
     /// <returns></returns>
-    public IValues Values(object?[] values)
+    public IQuery Values(object?[] values)
     {
         ArrayValidations.ItsNotEmpty(values, nameof(values));
 
@@ -73,7 +73,7 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn, IUnion
     /// </summary>
     /// <param name="rows">Multi-index object array containing the new rows to be inserted on table.</param>
     /// <returns></returns>
-    public IValues Values(object?[][] rows)
+    public IQuery Values(object?[][] rows)
     {
         ArrayValidations.ItsNotEmpty(rows, nameof(rows));
 

@@ -1,7 +1,7 @@
 ﻿namespace Lib.QueryBuilder.Clauses;
 
-public interface IValues : IQuery
+public interface IValues : ISelect
 {
-    public IValues Values(object?[] values);
-    public IValues Values(object?[][] values);
+    public IQuery Values(object?[] values);
+    public IQuery Values(object?[][] values);
 }

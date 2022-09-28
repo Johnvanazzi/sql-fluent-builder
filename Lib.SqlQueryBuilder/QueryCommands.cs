@@ -3,7 +3,7 @@ using Lib.QueryBuilder.Validations;
 
 namespace Lib.QueryBuilder;
 
-public partial class Query : IInsert, ISelect, IDelete, IUpdate
+public partial class Query : IInsertInto, ISelect, IDeleteFrom, IUpdate
 {
     /// <summary>
     /// Appends a 'SELECT *' command to the query builder. Thus, will get all columns from the table specified.
@@ -50,7 +50,7 @@ public partial class Query : IInsert, ISelect, IDelete, IUpdate
     /// </summary>
     /// <param name="table">The name of the table whose data will be deleted.</param>
     /// <returns></returns>
-    public IWhere Delete(string table) => AppendCommand("DELETE FROM", table);
+    public IWhere DeleteFrom(string table) => AppendCommand("DELETE FROM", table);
 
     /// <summary>
     /// Appends a 'DELETE FROM' command to the query builder.
@@ -58,14 +58,14 @@ public partial class Query : IInsert, ISelect, IDelete, IUpdate
     /// <param name="schema">The database schema where the table is.</param>
     /// <param name="table">The name of the table whose data will be deleted.</param>
     /// <returns></returns>
-    public IWhere Delete(string schema, string table) => AppendCommand("DELETE FROM", schema, table);
+    public IWhere DeleteFrom(string schema, string table) => AppendCommand("DELETE FROM", schema, table);
 
     /// <summary>
     /// Appends a 'INSERT INTO' command to the query builder.
     /// </summary>
     /// <param name="table">The name of the table where data will be inserted.</param>
     /// <returns></returns>
-    public IValues Insert(string table) => AppendCommand("INSERT INTO", table);
+    public IValues InsertInto(string table) => AppendCommand("INSERT INTO", table);
 
     /// <summary>
     /// Appends a 'INSERT INTO' command to the query builder.
@@ -73,7 +73,7 @@ public partial class Query : IInsert, ISelect, IDelete, IUpdate
     /// <param name="schema">The database schema where the table is.</param>
     /// <param name="table">The name of the table where data will be inserted.</param>
     /// <returns></returns>
-    public IValues Insert(string schema, string table) => AppendCommand("INSERT INTO", schema, table);
+    public IValues InsertInto(string schema, string table) => AppendCommand("INSERT INTO", schema, table);
 
     /// <summary>
     /// Appends a 'INSERT INTO' command to the query builder.
@@ -82,7 +82,7 @@ public partial class Query : IInsert, ISelect, IDelete, IUpdate
     /// <param name="table">The name of the table where data will be inserted.</param>
     /// <param name="columns">String array containing the columns names.</param>
     /// <returns></returns>
-    public IValues Insert(string schema, string table, string[] columns)
+    public IValues InsertInto(string schema, string table, string[] columns)
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
@@ -100,7 +100,7 @@ public partial class Query : IInsert, ISelect, IDelete, IUpdate
     /// <param name="table">The name of the table where data will be inserted.</param>
     /// <param name="columns">String array containing the columns names.</param>
     /// <returns></returns>
-    public IValues Insert(string table, string[] columns)
+    public IValues InsertInto(string table, string[] columns)
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
