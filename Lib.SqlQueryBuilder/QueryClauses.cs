@@ -5,7 +5,7 @@ using Lib.QueryBuilder.Validations;
 
 namespace Lib.QueryBuilder;
 
-public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
+public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn, IUnion
 {
     /// <summary>
     /// Appends as 'SET' clause to the query builder.
@@ -239,4 +239,15 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
 
         return this;
     }
+
+    private Query AppendClause(string clause)
+    {
+        _sb.Append(clause);
+        
+        return this;
+    }
+
+    public ISelect Union() => AppendClause(" UNION ");
+
+    public ISelect UnionAll() => AppendClause(" UNION ALL ");
 }
