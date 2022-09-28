@@ -250,4 +250,6 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn, IUnion
     public ISelect Union() => AppendClause(" UNION ");
 
     public ISelect UnionAll() => AppendClause(" UNION ALL ");
+    public IFrom Into(string newTable) => AppendClause($" INTO {newTable}");
+    public IFrom Into(string newTable, string externalDb) => AppendClause($" INTO {newTable} IN '{externalDb}'");
 }

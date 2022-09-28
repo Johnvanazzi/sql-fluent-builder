@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Lib.QueryBuilder.Utils;
 using NUnit.Framework;
 
 namespace Tests.QueryTests;
@@ -18,7 +17,7 @@ public class TestUnion : BaseConfig
     [Test]
     public void When_UnionAll_Is_Called()
     {
-        string result = _query.Union().ToSql();
+        string result = _query.UnionAll().ToSql();
 
         result.Should().Be(" UNION ALL ");
     }
