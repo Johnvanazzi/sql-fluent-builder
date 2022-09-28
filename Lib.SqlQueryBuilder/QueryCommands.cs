@@ -3,8 +3,12 @@ using Lib.QueryBuilder.Validations;
 
 namespace Lib.QueryBuilder;
 
-public partial class Query
+public partial class Query : IInsert, ISelect, IDelete, IUpdate
 {
+    /// <summary>
+    /// Appends a 'SELECT *' command to the query builder. Thus, will get all columns from the table specified.
+    /// </summary>
+    /// <returns></returns>
     public IFrom Select()
     {
         _sb.Append("SELECT *");
@@ -12,6 +16,11 @@ public partial class Query
         return this;
     }
 
+    /// <summary>
+    /// Appends a 'SELECT' command to the query builder.
+    /// </summary>
+    /// <param name="columns">String array containing the columns names to be selected.</param>
+    /// <returns></returns>
     public IFrom Select(params string[] columns)
     {
         ArrayValidations.ItsNotEmpty(columns, "Array of columns is empty.");
@@ -21,25 +30,76 @@ public partial class Query
         return this;
     }
 
+    /// <summary>
+    /// Appends an 'UPDATE' command to the query builder.
+    /// </summary>
+    /// <param name="table">The name of the table whose data will be updated.</param>
+    /// <returns></returns>
     public ISet Update(string table) => AppendCommand("UPDATE", table);
+
+    /// <summary>
+    /// Appends an 'UPDATE' command to the query builder.
+    /// </summary>
+    /// <param name="schema">The database schema where the table is.</param>
+    /// <param name="table">The name of the table whose data will be updated.</param>
+    /// <returns></returns>
     public ISet Update(string schema, string table) => AppendCommand("UPDATE", schema, table);
+
+    /// <summary>
+    /// Appends a 'DELETE FROM' command to the query builder.
+    /// </summary>
+    /// <param name="table">The name of the table whose data will be deleted.</param>
+    /// <returns></returns>
     public IWhere Delete(string table) => AppendCommand("DELETE FROM", table);
+
+    /// <summary>
+    /// Appends a 'DELETE FROM' command to the query builder.
+    /// </summary>
+    /// <param name="schema">The database schema where the table is.</param>
+    /// <param name="table">The name of the table whose data will be deleted.</param>
+    /// <returns></returns>
     public IWhere Delete(string schema, string table) => AppendCommand("DELETE FROM", schema, table);
+
+    /// <summary>
+    /// Appends a 'INSERT INTO' command to the query builder.
+    /// </summary>
+    /// <param name="table">The name of the table where data will be inserted.</param>
+    /// <returns></returns>
     public IValues Insert(string table) => AppendCommand("INSERT INTO", table);
+
+    /// <summary>
+    /// Appends a 'INSERT INTO' command to the query builder.
+    /// </summary>
+    /// <param name="schema">The database schema where the table is.</param>
+    /// <param name="table">The name of the table where data will be inserted.</param>
+    /// <returns></returns>
     public IValues Insert(string schema, string table) => AppendCommand("INSERT INTO", schema, table);
 
+    /// <summary>
+    /// Appends a 'INSERT INTO' command to the query builder.
+    /// </summary>
+    /// <param name="schema">The database schema where the table is.</param>
+    /// <param name="table">The name of the table where data will be inserted.</param>
+    /// <param name="columns">String array containing the columns names.</param>
+    /// <returns></returns>
     public IValues Insert(string schema, string table, string[] columns)
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
-        AppendCommand("INSERT INTO", schema, table)._sb
-            .Append(" (")
+        AppendCommand("INSERT INTO", schema, table)
+            ._sb.Append(" (")
             .AppendJoin(", ", columns)
             .Append(')');
 
         return this;
     }
 
+    /// <summary>
+    /// Appends a 'INSERT INTO' command to the query builder.
+    /// </summary>
+    /// <param name="table">The name of the table where data will be inserted.</param>
+    /// <param name="columns">String array containing the columns names.</param>
+    /// <returns></returns>
     public IValues Insert(string table, string[] columns)
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));

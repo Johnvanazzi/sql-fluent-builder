@@ -19,7 +19,7 @@ public interface IComparer
     public IConnective Like(string column, string value);
     public IConnective Nested(Action<Condition> condition);
     public IConnective NotBetween(string column, object? minimum, object? maximum);
-    public IConnective NotIn(string column, params object?[] value);
+    public IConnective NotIn(string column, params object?[] values);
     public IConnective NotIn(string column, Query subQuery);
     public IConnective NotLike(string column, string value);
 }
