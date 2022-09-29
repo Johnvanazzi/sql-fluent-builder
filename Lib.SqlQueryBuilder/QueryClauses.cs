@@ -43,7 +43,7 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// </summary>
     /// <param name="columns">String array containing the columns names.</param>
     /// <returns></returns>
-    public IQuery OrderBy(string[] columns)
+    public IUnion OrderBy(string[] columns)
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 

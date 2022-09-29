@@ -2,5 +2,5 @@
 
 public interface IGroupBy : IOrderBy
 {
-    public IHaving GroupBy(string[] columns);
+    public IHaving GroupBy(params string[] columns);
 }

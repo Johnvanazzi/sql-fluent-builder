@@ -1,6 +1,6 @@
 ﻿namespace Lib.QueryBuilder.Clauses;
 
-public interface IOrderBy : IUnion, IQuery
+public interface IOrderBy : IUnion
 {
-    public IQuery OrderBy(string[] columns);
+    public IUnion OrderBy(params string[] columns);
 }
