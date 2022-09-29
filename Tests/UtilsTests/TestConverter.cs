@@ -1,8 +1,8 @@
 ﻿using System;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Lib.QueryBuilder.Operators;
-using Lib.QueryBuilder.Utils;
+using SqlFluentBuilder.Operators;
+using SqlFluentBuilder.Utils;
 using NUnit.Framework;
 
 namespace Tests.UtilsTests;

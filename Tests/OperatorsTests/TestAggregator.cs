@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
-using Lib.QueryBuilder.Operators;
+using SqlFluentBuilder.Operators;
 using NUnit.Framework;
 
 namespace Tests.OperatorsTests;

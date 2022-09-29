@@ -1,4 +1,4 @@
-using Lib.QueryBuilder;
+using SqlFluentBuilder;
 using NUnit.Framework;
 
 namespace Tests.QueryTests;
