@@ -2,7 +2,6 @@ namespace SqlFluentBuilder.Validations;
 
 public static class ArrayValidations
 {
-
     public static void ItsNotEmpty(IEnumerable<object?> data, string name)
     {
         if (!data.Any())

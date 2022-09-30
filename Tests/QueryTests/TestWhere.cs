@@ -23,9 +23,4 @@ public class TestWhere : BaseConfig
         
         result.Should().Be($" WHERE ({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5)");
     }
-
-    public void Testinho()
-    {
-        
-    }
 }

@@ -22,8 +22,8 @@ public class TestOn : BaseConfig
     [Test]
     public void When_Only_Keys_Are_Passed()
     {
-        string result = _query.On("key1", "key2").ToSql();
+        string result = _query.On("table1","key1", "table2","key2").ToSql();
 
-        result.Should().Be(" ON key1 = key2");
+        result.Should().Be(" ON [table1].[key1] = [table2].[key2]");
     }
 }

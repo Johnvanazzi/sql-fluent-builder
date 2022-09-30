@@ -1,3 +1,4 @@
+using System.Text;
 using SqlFluentBuilder.Clauses;
 using SqlFluentBuilder.Operators;
 using SqlFluentBuilder.Utils;
@@ -98,6 +99,14 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <returns></returns>
     public IGroupBy Where(IConnective condition) => AppendClause("WHERE", condition);
 
+    public IGroupBy Where(Func<Condition, IConnective> action)
+    {
+        StringBuilder sb = action.Invoke(new Condition()).Sb;
+        _sb.Append(" WHERE ").Append(sb);
+        
+        return this;
+    }
+    
     /// <summary>
     /// Appends the 'HAVING' clause to the query builder.
     /// </summary>
@@ -105,6 +114,14 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <returns></returns>
     public IOrderBy Having(IConnective condition) => AppendClause("HAVING", condition);
 
+    public IOrderBy Having(Func<Condition, IConnective> action)
+    {
+        StringBuilder sb = action.Invoke(new Condition()).Sb;
+        _sb.Append(" HAVING ").Append(sb);
+
+        return this;
+    }
+    
     /// <summary>
     /// Appends the 'FROM' clause to the query builder.
     /// </summary>
@@ -198,12 +215,14 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <summary>
     /// Appends the 'ON' clause to the query builder.
     /// </summary>
+    /// <param name="leftTable">The name of the table joining by the 'left'.</param>
     /// <param name="leftKey">The key from the left table of the join clause.</param>
+    /// <param name="rightTable">The name of the table joining by the 'right'.</param>
     /// <param name="rightKey">The key from the right table of the join clause.</param>
     /// <returns></returns>
-    public IJoin On(string leftKey, string rightKey)
+    public IJoin On(string leftTable, string leftKey, string rightTable, string rightKey)
     {
-        _sb.Append($" ON {leftKey} = {rightKey}");
+        _sb.Append($" ON [{leftTable}].[{leftKey}] = [{rightTable}].[{rightKey}]");
 
         return this;
     }

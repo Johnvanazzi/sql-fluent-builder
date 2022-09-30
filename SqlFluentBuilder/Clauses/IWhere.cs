@@ -2,7 +2,8 @@
 
 namespace SqlFluentBuilder.Clauses;
 
-public interface IWhere : IUnion, IQuery
+public interface IWhere : IUnion
 {
     public IGroupBy Where(IConnective condition);
+    public IGroupBy Where(Func<Condition, IConnective> condition);
 }
