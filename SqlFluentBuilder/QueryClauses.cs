@@ -99,14 +99,8 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <returns></returns>
     public IGroupBy Where(IConnective condition) => AppendClause("WHERE", condition);
 
-    public IGroupBy Where(Func<Condition, IConnective> action)
-    {
-        StringBuilder sb = action.Invoke(new Condition()).Sb;
-        _sb.Append(" WHERE ").Append(sb);
-        
-        return this;
-    }
-    
+    public IGroupBy Where(Func<Condition, IConnective> condition) => AppendClause("WHERE", condition);
+
     /// <summary>
     /// Appends the 'HAVING' clause to the query builder.
     /// </summary>
@@ -114,14 +108,8 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <returns></returns>
     public IOrderBy Having(IConnective condition) => AppendClause("HAVING", condition);
 
-    public IOrderBy Having(Func<Condition, IConnective> action)
-    {
-        StringBuilder sb = action.Invoke(new Condition()).Sb;
-        _sb.Append(" HAVING ").Append(sb);
+    public IOrderBy Having(Func<Condition, IConnective> condition) => AppendClause("HAVING", condition);
 
-        return this;
-    }
-    
     /// <summary>
     /// Appends the 'FROM' clause to the query builder.
     /// </summary>
@@ -242,6 +230,11 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
         return this;
     }
 
+    public ISelect Union() => AppendClause(" UNION ");
+    public ISelect UnionAll() => AppendClause(" UNION ALL ");
+    public IFrom Into(string newTable) => AppendClause($" INTO {newTable}");
+    public IFrom Into(string newTable, string externalDb) => AppendClause($" INTO {newTable} IN '{externalDb}'");
+
     private Query AppendClause(string clause, string table)
     {
         _sb.Append($" {clause} [{table}]");
@@ -259,16 +252,18 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
         return this;
     }
 
-    private Query AppendClause(string clause)
+    private Query AppendClause(string clause, Func<Condition, IConnective> function)
     {
-        _sb.Append(clause);
-        
+        StringBuilder sb = function.Invoke(new Condition()).Sb;
+        _sb.Append($" {clause} ").Append(sb);
+
         return this;
     }
 
-    public ISelect Union() => AppendClause(" UNION ");
+    private Query AppendClause(string clause)
+    {
+        _sb.Append(clause);
 
-    public ISelect UnionAll() => AppendClause(" UNION ALL ");
-    public IFrom Into(string newTable) => AppendClause($" INTO {newTable}");
-    public IFrom Into(string newTable, string externalDb) => AppendClause($" INTO {newTable} IN '{externalDb}'");
+        return this;
+    }
 }
