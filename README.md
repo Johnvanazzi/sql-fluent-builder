@@ -4,7 +4,8 @@ Welcome to the SQL fluent builder. This package aims to provide a straightforwar
 The main goal is to buy you time while writing your SQL strings. 
 You will benefit from data conversion to SQL string, formatting, assured correctness on SQL statements and also the fluent way of writing SQL. If you don`t want to put your queries in static files, you are in the right place. 
 
-In this brief Readme we can give you a glimpse of what kind of complexity you might achieve when use the package. Here follows an example of a generic complex query
+In this brief README we can give you a glimpse of what kind of complexity you might achieve using this package. 
+Here follows an example of a generic complex query
 
 ![Complex query code example](Assets/example-complex-query-code.png "Code example of the package")
 
