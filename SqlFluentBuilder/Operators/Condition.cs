@@ -93,7 +93,7 @@ public class Condition : IComparer, IConnective
     /// <returns></returns>
     public IConnective In(string column, Query subQuery)
     {
-        Sb.Append($"({column} IN ({subQuery.ToSql()}))");
+        Sb.Append($"([{column}] IN ({subQuery.ToSql()}))");
         return this;
     }
 
@@ -168,7 +168,7 @@ public class Condition : IComparer, IConnective
     /// <returns></returns>
     public IConnective NotIn(string column, Query subQuery)
     {
-        Sb.Append($"({column} NOT IN ({subQuery.ToSql()}))");
+        Sb.Append($"([{column}] NOT IN ({subQuery.ToSql()}))");
 
         return this;
     }
@@ -182,7 +182,7 @@ public class Condition : IComparer, IConnective
     /// <returns></returns>
     public IConnective All(string column, Comparer comparer, Query subQuery)
     {
-        Sb.Append($"({column} {comparer.ToSql()} ALL ({subQuery.ToSql()}))");
+        Sb.Append($"([{column}] {comparer.ToSql()} ALL ({subQuery.ToSql()}))");
 
         return this;
     }
@@ -196,7 +196,7 @@ public class Condition : IComparer, IConnective
     /// <returns></returns>
     public IConnective Any(string column, Comparer comparer, Query subQuery)
     {
-        Sb.Append($"({column} {comparer.ToSql()} ANY ({subQuery.ToSql()}))");
+        Sb.Append($"([{column}] {comparer.ToSql()} ANY ({subQuery.ToSql()}))");
 
         return this;
     }
@@ -229,21 +229,14 @@ public class Condition : IComparer, IConnective
 
     private IConnective AppendBetween(string column, Comparer comparer, object? minimum, object? maximum)
     {
-        Sb.Append($"({column} {comparer.ToSql()} {minimum.ToSql()} AND {maximum.ToSql()})");
+        Sb.Append($"([{column}] {comparer.ToSql()} {minimum.ToSql()} AND {maximum.ToSql()})");
 
         return this;
     }
 
     private IConnective AppendCondition(string column, Comparer comparer, object? value)
     {
-        Sb.Append($"({column} {comparer.ToSql()} {value.ToSql()})");
-
-        return this;
-    }
-
-    private IComparer AppendConnective(string connective)
-    {
-        Sb.Append($" {connective} ");
+        Sb.Append($"([{column}] {comparer.ToSql()} {value.ToSql()})");
 
         return this;
     }

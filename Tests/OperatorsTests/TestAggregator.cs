@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace Tests.OperatorsTests;
 
+[TestFixture]
 public class TestAggregator
 {
     private string _column;
@@ -24,7 +25,7 @@ public class TestAggregator
         using (new AssertionScope())
         {
             sumResult.Should().Be("SUM(*)");
-            sumColumnResult.Should().Be($"SUM({_column})");
+            sumColumnResult.Should().Be($"SUM([{_column}])");
         }
     }
 
@@ -37,7 +38,7 @@ public class TestAggregator
         using (new AssertionScope())
         {
             avgResult.Should().Be("AVG(*)");
-            avgColumnResult.Should().Be($"AVG({_column})");
+            avgColumnResult.Should().Be($"AVG([{_column}])");
         }
     }
 
@@ -50,7 +51,7 @@ public class TestAggregator
         using (new AssertionScope())
         {
             minResult.Should().Be("MIN(*)");
-            minColumnResult.Should().Be($"MIN({_column})");
+            minColumnResult.Should().Be($"MIN([{_column}])");
         }
     }
 
@@ -63,7 +64,7 @@ public class TestAggregator
         using (new AssertionScope())
         {
             maxResult.Should().Be("MAX(*)");
-            maxColumnResult.Should().Be($"MAX({_column})");
+            maxColumnResult.Should().Be($"MAX([{_column}])");
         }
     }
 
@@ -76,7 +77,7 @@ public class TestAggregator
         using (new AssertionScope())
         {
             countResult.Should().Be("COUNT(*)");
-            countColumnResult.Should().Be($"COUNT({_column})");
+            countColumnResult.Should().Be($"COUNT([{_column}])");
         }
     }
 }

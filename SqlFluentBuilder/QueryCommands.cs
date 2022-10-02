@@ -3,7 +3,7 @@ using SqlFluentBuilder.Validations;
 
 namespace SqlFluentBuilder;
 
-public partial class Query : IInsertInto, ISelect, IDeleteFrom, IUpdate
+public partial class Query : IInsertInto, IDeleteFrom, IUpdate
 {
     /// <summary>
     /// Appends a 'SELECT *' command to the query builder. Thus, will get all columns from the table specified.
@@ -25,7 +25,8 @@ public partial class Query : IInsertInto, ISelect, IDeleteFrom, IUpdate
     {
         ArrayValidations.ItsNotEmpty(columns, "Array of columns is empty.");
 
-        _sb.Append("SELECT ").AppendJoin(", ", columns);
+        _sb.Append("SELECT ");
+        AppendColumnArray(columns);
 
         return this;
     }
@@ -86,10 +87,10 @@ public partial class Query : IInsertInto, ISelect, IDeleteFrom, IUpdate
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
-        AppendCommand("INSERT INTO", schema, table)
-            ._sb.Append(" (")
-            .AppendJoin(", ", columns)
-            .Append(')');
+        AppendCommand("INSERT INTO", schema, table);
+        _sb.Append(" (");
+        AppendColumnArray(columns);
+        _sb.Append(')');
 
         return this;
     }
@@ -104,10 +105,10 @@ public partial class Query : IInsertInto, ISelect, IDeleteFrom, IUpdate
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
-        AppendCommand("INSERT INTO", table)._sb
-            .Append(" (")
-            .AppendJoin(", ", columns)
-            .Append(')');
+        AppendCommand("INSERT INTO", table);
+        _sb.Append(" (");
+        AppendColumnArray(columns);
+        _sb.Append(')');
 
         return this;
     }

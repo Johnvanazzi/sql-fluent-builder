@@ -29,7 +29,7 @@ public class TestInsert : BaseConfig
     {
         string result = _query.InsertInto(_schema, _table, _columns).ToSql();
 
-        result.Should().Be($"INSERT INTO [{_schema}].[{_table}] ({_columns[0]}, {_columns[1]}, {_columns[2]})");
+        result.Should().Be($"INSERT INTO [{_schema}].[{_table}] ([{_columns[0]}], [{_columns[1]}], [{_columns[2]}])");
     }
 
     [Test]
@@ -37,7 +37,7 @@ public class TestInsert : BaseConfig
     {
         string result = _query.InsertInto(_table, _columns).ToSql();
 
-        result.Should().Be($"INSERT INTO [{_table}] ({_columns[0]}, {_columns[1]}, {_columns[2]})");
+        result.Should().Be($"INSERT INTO [{_table}] ([{_columns[0]}], [{_columns[1]}], [{_columns[2]}])");
     }
 
     [Test]

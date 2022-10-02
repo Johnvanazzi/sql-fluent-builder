@@ -35,7 +35,7 @@ public class TestCondition
     {
         string result = _condition.Differs(_column, 1).ToSql();
 
-        result.Should().Be($"({_column} != 1)");
+        result.Should().Be($"([{_column}] != 1)");
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class TestCondition
     {
         string result = _condition.Equals(_column, 'a').ToSql();
 
-        result.Should().Be($"({_column} = 'a')");
+        result.Should().Be($"([{_column}] = 'a')");
     }
 
     [Test]
@@ -59,7 +59,7 @@ public class TestCondition
     {
         string result = _condition.Greater(_column, new DateTime(1970,1,1,0,0,0)).ToSql();
 
-        result.Should().Be($"({_column} > '1970-01-01T00:00:00')");
+        result.Should().Be($"([{_column}] > '1970-01-01T00:00:00')");
     }
     
     [Test]
@@ -67,7 +67,7 @@ public class TestCondition
     {
         string result = _condition.GreaterEqual(_column, 1).ToSql();
 
-        result.Should().Be($"({_column} >= 1)");
+        result.Should().Be($"([{_column}] >= 1)");
     }
     
     [Test]
@@ -76,7 +76,7 @@ public class TestCondition
         object?[] values = { 1, "abc", 2 };
         string result = _condition.In(_column, values).ToSql();
 
-        result.Should().Be($"({_column} IN (1, 'abc', 2))");
+        result.Should().Be($"([{_column}] IN (1, 'abc', 2))");
     }
     
     [Test]
@@ -84,7 +84,7 @@ public class TestCondition
     {
         string result = _condition.In(_column, _subQuery).ToSql();
 
-        result.Should().Be($"({_column} IN ({_subQuery.ToSql()}))");
+        result.Should().Be($"([{_column}] IN ({_subQuery.ToSql()}))");
     }
     
     [Test]
@@ -92,7 +92,7 @@ public class TestCondition
     {
         string result = _condition.IsNull(_column).ToSql();
 
-        result.Should().Be($"({_column} IS NULL)");
+        result.Should().Be($"([{_column}] IS NULL)");
     }
     
     [Test]
@@ -100,7 +100,7 @@ public class TestCondition
     {
         string result = _condition.IsNotNull(_column).ToSql();
 
-        result.Should().Be($"({_column} IS NOT NULL)");
+        result.Should().Be($"([{_column}] IS NOT NULL)");
     }
     
     [Test]
@@ -108,7 +108,7 @@ public class TestCondition
     {
         string result = _condition.Less(_column, 0.123).ToSql();
 
-        result.Should().Be($"({_column} < 0.123)");
+        result.Should().Be($"([{_column}] < 0.123)");
     }
     
     [Test]
@@ -116,7 +116,7 @@ public class TestCondition
     {
         string result = _condition.LessEqual(_column, 0).ToSql();
 
-        result.Should().Be($"({_column} <= 0)");
+        result.Should().Be($"([{_column}] <= 0)");
     }
     
     [Test]
@@ -124,7 +124,7 @@ public class TestCondition
     {
         string result = _condition.Nested(c => c.Equals(_column, 1)).ToSql();
 
-        result.Should().Be($"(({_column} = 1))");
+        result.Should().Be($"(([{_column}] = 1))");
     }
     
     [Test]
@@ -132,7 +132,7 @@ public class TestCondition
     {
         string result = _condition.NotBetween(_column, 0, 1).ToSql();
 
-        result.Should().Be($"({_column} NOT BETWEEN 0 AND 1)");
+        result.Should().Be($"([{_column}] NOT BETWEEN 0 AND 1)");
     }
     
     [Test]
@@ -140,7 +140,7 @@ public class TestCondition
     {
         string result = _condition.NotIn(_column, 0, 'a').ToSql();
 
-        result.Should().Be($"({_column} NOT IN (0, 'a'))");
+        result.Should().Be($"([{_column}] NOT IN (0, 'a'))");
     }
     
     [Test]
@@ -148,7 +148,7 @@ public class TestCondition
     {
         string result = _condition.NotIn(_column, _subQuery).ToSql();
 
-        result.Should().Be($"({_column} NOT IN ({_subQuery.ToSql()}))");
+        result.Should().Be($"([{_column}] NOT IN ({_subQuery.ToSql()}))");
     }
     
     [Test]
@@ -156,7 +156,7 @@ public class TestCondition
     {
         string result = _condition.All(_column, Comparer.Equals, _subQuery).ToSql();
 
-        result.Should().Be($"({_column} = ALL ({_subQuery.ToSql()}))");
+        result.Should().Be($"([{_column}] = ALL ({_subQuery.ToSql()}))");
     }
     
     [Test]
@@ -164,7 +164,7 @@ public class TestCondition
     {
         string result = _condition.Any(_column, Comparer.Equals, _subQuery).ToSql();
 
-        result.Should().Be($"({_column} = ANY ({_subQuery.ToSql()}))");
+        result.Should().Be($"([{_column}] = ANY ({_subQuery.ToSql()}))");
     }
     
     [Test]
@@ -172,7 +172,7 @@ public class TestCondition
     {
         string result = _condition.Between(_column, 0.001, 1).ToSql();
 
-        result.Should().Be($"({_column} BETWEEN 0.001 AND 1)");
+        result.Should().Be($"([{_column}] BETWEEN 0.001 AND 1)");
     }
     
     [Test]
@@ -180,7 +180,7 @@ public class TestCondition
     {
         string result = _condition.NotLike(_column, "%a%").ToSql();
 
-        result.Should().Be($"({_column} NOT LIKE '%a%')");
+        result.Should().Be($"([{_column}] NOT LIKE '%a%')");
     }
     
     [Test]
@@ -188,7 +188,7 @@ public class TestCondition
     {
         string result = _condition.Like(_column, "%a%").ToSql();
 
-        result.Should().Be($"({_column} LIKE '%a%')");
+        result.Should().Be($"([{_column}] LIKE '%a%')");
     }
 
     [Test]
@@ -196,7 +196,7 @@ public class TestCondition
     {
         string orResult = _condition.Equals(_column, "A").Or.IsNotNull(_column).ToSql();
         
-        orResult.Should().Be($"({_column} = 'A') OR ({_column} IS NOT NULL)");   
+        orResult.Should().Be($"([{_column}] = 'A') OR ([{_column}] IS NOT NULL)");   
     }
     
     [Test]
@@ -204,6 +204,6 @@ public class TestCondition
     {
         string andResult = _condition.Less(_column, 0).And.Greater(_column, 2).ToSql();
 
-        andResult.Should().Be($"({_column} < 0) AND ({_column} > 2)");   
+        andResult.Should().Be($"([{_column}] < 0) AND ([{_column}] > 2)");   
     }
 }

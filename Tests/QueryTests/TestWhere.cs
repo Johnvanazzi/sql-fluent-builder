@@ -21,7 +21,7 @@ public class TestWhere : BaseConfig
 
         string result = _query.Where(conditions).ToSql();
         
-        result.Should().Be($" WHERE ({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5)");
+        result.Should().Be($" WHERE ([{_columns[0]}] >= '2022-01-01T00:00:00') AND (([{_columns[1]}] > 1.2) OR ([{_columns[2]}] >= 2)) OR ([{_columns[2]}] <= 5)");
     }
     
     [Test]
@@ -35,6 +35,6 @@ public class TestWhere : BaseConfig
             .LessEqual(_columns[2], 5)
         ).ToSql();
         
-        result.Should().Be($" WHERE ({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5)");
+        result.Should().Be($" WHERE ([{_columns[0]}] >= '2022-01-01T00:00:00') AND (([{_columns[1]}] > 1.2) OR ([{_columns[2]}] >= 2)) OR ([{_columns[2]}] <= 5)");
     }
 }

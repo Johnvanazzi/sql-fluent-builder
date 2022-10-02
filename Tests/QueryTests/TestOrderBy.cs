@@ -12,7 +12,7 @@ public class TestOrderBy : BaseConfig
     {
         string result = _query.OrderBy(_columns).ToSql();
 
-        result.Should().Be($" ORDER BY {_columns[0]}, {_columns[1]}, {_columns[2]}");
+        result.Should().Be($" ORDER BY [{_columns[0]}], [{_columns[1]}], [{_columns[2]}]");
     }
 
     [Test]

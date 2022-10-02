@@ -12,7 +12,7 @@ public class TestGroupBy : BaseConfig
     {
         string result = _query.GroupBy(_columns).ToSql();
 
-        result.Should().Be($" GROUP BY {_columns[0]}, {_columns[1]}, {_columns[2]}");
+        result.Should().Be($" GROUP BY [{_columns[0]}], [{_columns[1]}], [{_columns[2]}]");
     }
 
     [Test]

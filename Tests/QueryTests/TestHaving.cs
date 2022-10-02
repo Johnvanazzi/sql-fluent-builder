@@ -21,7 +21,7 @@ public class TestHaving : BaseConfig
 
         string result = _query.Having(conditions).ToSql();
 
-        result.Should().Be($" HAVING ({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5)");
+        result.Should().Be($" HAVING ([{_columns[0]}] >= '2022-01-01T00:00:00') AND (([{_columns[1]}] > 1.2) OR ([{_columns[2]}] >= 2)) OR ([{_columns[2]}] <= 5)");
     }
 
     [Test]
@@ -35,6 +35,6 @@ public class TestHaving : BaseConfig
             .LessEqual(_columns[2], 5)
         ).ToSql();
 
-        result.Should().Be($" HAVING ({_columns[0]} >= '2022-01-01T00:00:00') AND (({_columns[1]} > 1.2) OR ({_columns[2]} >= 2)) OR ({_columns[2]} <= 5)");
+        result.Should().Be($" HAVING ([{_columns[0]}] >= '2022-01-01T00:00:00') AND (([{_columns[1]}] > 1.2) OR ([{_columns[2]}] >= 2)) OR ([{_columns[2]}] <= 5)");
     }
 }

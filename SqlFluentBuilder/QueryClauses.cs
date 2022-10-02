@@ -20,7 +20,7 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
             throw new ArgumentException("No values or columns were provided");
 
         _sb.Append(" SET ")
-            .AppendJoin(", ", columnsValues.Select(pair => $"{pair.Key}={pair.Value.ToSql()}"));
+            .AppendJoin(", ", columnsValues.Select(pair => $"[{pair.Key}]={pair.Value.ToSql()}"));
 
         return this;
     }
@@ -34,7 +34,8 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
-        _sb.Append(" GROUP BY ").AppendJoin(", ", columns);
+        _sb.Append(" GROUP BY ");
+        AppendColumnArray(columns);
 
         return this;
     }
@@ -48,7 +49,8 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     {
         ArrayValidations.ItsNotEmpty(columns, nameof(columns));
 
-        _sb.Append(" ORDER BY ").AppendJoin(", ", columns);
+        _sb.Append(" ORDER BY ");
+        AppendColumnArray(columns);
 
         return this;
     }
@@ -99,6 +101,11 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <returns></returns>
     public IGroupBy Where(IConnective condition) => AppendClause("WHERE", condition);
 
+    /// <summary>
+    /// Appends the 'WHERE' clause to the query builder.
+    /// </summary>
+    /// <param name="condition">A lambda function that will apply the filter conditions</param>
+    /// <returns></returns>
     public IGroupBy Where(Func<Condition, IConnective> condition) => AppendClause("WHERE", condition);
 
     /// <summary>
@@ -108,6 +115,11 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <returns></returns>
     public IOrderBy Having(IConnective condition) => AppendClause("HAVING", condition);
 
+    /// <summary>
+    /// Appends the 'HAVING' clause to the query builder.
+    /// </summary>
+    /// <param name="condition">A lambda function that will apply the filter conditions</param>
+    /// <returns></returns>
     public IOrderBy Having(Func<Condition, IConnective> condition) => AppendClause("HAVING", condition);
 
     /// <summary>
@@ -235,8 +247,8 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
 
     public ISelect Union() => AppendClause(" UNION ");
     public ISelect UnionAll() => AppendClause(" UNION ALL ");
-    public IFrom Into(string newTable) => AppendClause($" INTO {newTable}");
-    public IFrom Into(string newTable, string externalDb) => AppendClause($" INTO {newTable} IN '{externalDb}'");
+    public IFrom Into(string newTable) => AppendClause($" INTO [{newTable}]");
+    public IFrom Into(string newTable, string externalDb) => AppendClause($" INTO [{newTable}] IN '{externalDb}'");
 
     private Query AppendClause(string clause, string table)
     {

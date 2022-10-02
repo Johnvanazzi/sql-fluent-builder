@@ -14,9 +14,9 @@ public class TestOn : BaseConfig
             .Equals(_columns[0], 1).And
             .IsNull(_columns[1]);
 
-        string result = _query.On("key1", "key2", Connective.And, conditions).ToSql();
+        string result = _query.On("table1", "key1", "table2", "key2", Connective.And, conditions).ToSql();
 
-        result.Should().Be($" ON key1 = key2 AND ({_columns[0]} = 1) AND ({_columns[1]} IS NULL)");
+        result.Should().Be($" ON [table1].[key1] = [table2].[key2] AND ([{_columns[0]}] = 1) AND ([{_columns[1]}] IS NULL)");
     }
 
     [Test]

@@ -11,7 +11,7 @@ public class TestInto : BaseConfig
     {
         string result = _query.Into(_table).ToSql();
 
-        result.Should().Be($" INTO {_table}");
+        result.Should().Be($" INTO [{_table}]");
     }
     
     [Test]
@@ -20,6 +20,6 @@ public class TestInto : BaseConfig
         string externalDb = "testDb";
         string result = _query.Into(_table, externalDb).ToSql();
 
-        result.Should().Be($" INTO {_table} IN '{externalDb}'");
+        result.Should().Be($" INTO [{_table}] IN '{externalDb}'");
     }
 }

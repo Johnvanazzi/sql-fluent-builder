@@ -13,7 +13,7 @@ public static class Aggregator
     /// </summary>
     /// <param name="column">The column whose average will be taken.</param>
     /// <returns>The string with average function applied to one column.</returns>
-    public static string Avg(string column) => $"AVG({column})";
+    public static string Avg(string column) => $"AVG([{column}])";
 
     /// <summary>
     /// Creates the string representing SQL count function.
@@ -26,7 +26,7 @@ public static class Aggregator
     /// </summary>
     /// <param name="column">The column whose count will be taken.</param>
     /// <returns>The string with count function applied to one column.</returns>
-    public static string Count(string column) => $"COUNT({column})";
+    public static string Count(string column) => $"COUNT([{column}])";
 
     /// <summary>
     /// Creates the string representing SQL max function.
@@ -39,7 +39,7 @@ public static class Aggregator
     /// </summary>
     /// <param name="column">The column in which maximum function will act.</param>
     /// <returns>The string with maximum function applied one column.</returns>
-    public static string Max(string column) => $"MAX({column})";
+    public static string Max(string column) => $"MAX([{column}])";
 
     /// <summary>
     /// Creates the string representing SQL minimum function.
@@ -52,7 +52,7 @@ public static class Aggregator
     /// </summary>
     /// <param name="column">The column which minimum function will act.</param>
     /// <returns>The string with minimum function applied to one column.</returns>
-    public static string Min(string column) => $"MIN({column})";
+    public static string Min(string column) => $"MIN([{column}])";
 
     /// <summary>
     /// Creates the string representing SQL sum function.
@@ -65,5 +65,5 @@ public static class Aggregator
     /// </summary>
     /// <param name="column">The column which sum function will act.</param>
     /// <returns>The string with sum function applied to one column.</returns>
-    public static string Sum(string column) => $"SUM({column})";
+    public static string Sum(string column) => $"SUM([{column}])";
 }

@@ -21,7 +21,7 @@ public class TestSelect : BaseConfig
     {
         string result = _query.Select(_columns).ToSql();
         
-        result.Should().Be($"SELECT {_columns[0]}, {_columns[1]}, {_columns[2]}");
+        result.Should().Be($"SELECT [{_columns[0]}], [{_columns[1]}], [{_columns[2]}]");
     }
     
     [Test]

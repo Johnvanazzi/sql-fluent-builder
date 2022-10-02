@@ -23,4 +23,6 @@ public partial class Query
     /// After called, the builder is ready to be reused. 
     /// </summary>
     public void Clear() => _sb.Clear();
+
+    private void AppendColumnArray(string[] columns) => _sb.AppendJoin(", ", columns.Select(c => $"[{c}]"));
 }
