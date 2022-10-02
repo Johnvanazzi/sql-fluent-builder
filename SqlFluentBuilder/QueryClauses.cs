@@ -218,14 +218,17 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <summary>
     /// Appends the 'ON' clause to the query builder.
     /// </summary>
+    /// <param name="leftTable">The name of the table joining by the 'left'.</param>
     /// <param name="leftKey">The key from the left table of the join clause.</param>
+    /// <param name="rightTable">The name of the table joining by the 'right'.</param>
     /// <param name="rightKey">The key from the right table of the join clause.</param>
     /// <param name="connective">A logical connective to append further logical constraints.</param>
     /// <param name="condition">Condition object with the additional constraints to the join clause.</param>
     /// <returns></returns>
-    public IJoin On(string leftKey, string rightKey, Connective connective, IConnective condition)
+    public IJoin On(string leftTable, string leftKey, string rightTable, string rightKey, Connective connective,
+        IConnective condition)
     {
-        _sb.Append($" ON {leftKey} = {rightKey} {connective.ToSql()} ").Append(condition.Sb);
+        _sb.Append($" ON [{leftTable}].[{leftKey}] = [{rightTable}].[{rightKey}] {connective.ToSql()} ").Append(condition.Sb);
 
         return this;
     }
