@@ -14,13 +14,13 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <param name="columnsValues">A dictionary containing the columns names and the new values to be updated.</param>
     /// <returns></returns>
     /// <exception cref="ArgumentException">Throws exceptions when passed dictionary is empty.</exception>
-    public IValues Set(Dictionary<string, object?> columnsValues)
+    public IWhere Set(Dictionary<string, object?> columnsValues)
     {
         if (columnsValues.Count < 1)
             throw new ArgumentException("No values or columns were provided");
 
         _sb.Append(" SET ")
-            .AppendJoin(", ", columnsValues.Select(pair => $"[{pair.Key}]={pair.Value.ToSql()}"));
+            .AppendJoin(", ", columnsValues.Select(pair => $"[{pair.Key}] = {pair.Value.ToSql()}"));
 
         return this;
     }
@@ -104,7 +104,7 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     /// <summary>
     /// Appends the 'WHERE' clause to the query builder.
     /// </summary>
-    /// <param name="condition">A lambda function that will apply the filter conditions</param>
+    /// <param name="condition">A lambda function that will apply the filter conditions.</param>
     /// <returns></returns>
     public IGroupBy Where(Func<Condition, IConnective> condition) => AppendClause("WHERE", condition);
 

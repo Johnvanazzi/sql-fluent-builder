@@ -27,6 +27,6 @@ public class TestSet : BaseConfig
         };
         string result = _query.Set(values).ToSql();
         
-        result.Should().Be($" SET [{_columns[0]}]=0, [{_columns[1]}]='Test', [{_columns[2]}]=NULL");
+        result.Should().Be($" SET [{_columns[0]}] = 0, [{_columns[1]}] = 'Test', [{_columns[2]}] = NULL");
     }
 }

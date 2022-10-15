@@ -16,7 +16,7 @@ public class TestFrom : BaseConfig
     [Test]
     public void When_Schema_And_Table_Are_Passed()
     {
-        string raw = _query.Select().From(_schema, _table).ToSql();
-        raw.Should().Be($"SELECT * FROM [{_schema}].[{_table}]");
+        string raw = _query.From(_schema, _table).ToSql();
+        raw.Should().Be($" FROM [{_schema}].[{_table}]");
     }
 }
