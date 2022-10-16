@@ -240,15 +240,56 @@ public partial class Query : IFrom, ISet, IValues, IHaving, IJoin, IOn
     public IJoin On(string leftTable, string leftKey, string rightTable, string rightKey, Connective connective,
         IConnective condition)
     {
-        _sb.Append($" ON [{leftTable}].[{leftKey}] = [{rightTable}].[{rightKey}] {connective.ToSql()} ").Append(condition.Sb);
+        _sb.Append($" ON [{leftTable}].[{leftKey}] = [{rightTable}].[{rightKey}] {connective.ToSql()} ")
+            .Append(condition.Sb);
 
         return this;
     }
 
+    /// <summary>
+    /// Appends the 'UNION' clause to the query builder.
+    /// </summary>
+    /// <returns></returns>
     public ISelect Union() => AppendClause(" UNION ");
+
+    /// <summary>
+    /// Appends the 'UNION ALL' clause to the query builder.
+    /// </summary>
+    /// <returns></returns>
     public ISelect UnionAll() => AppendClause(" UNION ALL ");
-    public IFrom Into(string newTable) => AppendClause($" INTO [{newTable}]");
-    public IFrom Into(string newTable, string externalDb) => AppendClause($" INTO [{newTable}] IN '{externalDb}'");
+
+    /// <summary>
+    /// Appends the 'INTO' clause to the query builder. This is intended to be used after the 'SELECT' statement.
+    /// </summary>
+    /// <param name="newTable">The name of the table of destiny.</param>
+    /// <returns></returns>
+    public IFrom Into(string newTable) => AppendClause("INTO", newTable);
+
+    /// <summary>
+    /// Appends the 'INTO' clause to the query builder. This is intended to be used after the 'SELECT' statement.
+    /// </summary>
+    /// <param name="schema">The name of the schema.</param>
+    /// <param name="newTable">The name of the table of destiny.</param>
+    /// <returns></returns>
+    public IFrom Into(string schema, string newTable) => AppendClause("INTO", schema, newTable);
+
+    /// <summary>
+    /// Appends the 'INTO' clause to the query builder. This is intended to be used after the 'SELECT' statement.
+    /// </summary>
+    /// <param name="newTable">The name of the table of destiny.</param>
+    /// <param name="externalDb">The name of the external database.</param>
+    /// <returns></returns>
+    public IFrom IntoIn(string newTable, string externalDb) => AppendClause($" INTO [{newTable}] IN '{externalDb}'");
+
+    /// <summary>
+    /// Appends the 'INTO' clause to the query builder. This is intended to be used after the 'SELECT' statement.
+    /// </summary>
+    /// <param name="schema">The name of the schema.</param>
+    /// <param name="newTable">The name of the table of destiny.</param>
+    /// <param name="externalDb">The name of the external database.</param>
+    /// <returns></returns>
+    public IFrom IntoIn(string schema, string newTable, string externalDb) =>
+        AppendClause($" INTO [{schema}].[{newTable}] IN '{externalDb}'");
 
     private Query AppendClause(string clause, string table)
     {
