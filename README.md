@@ -7,12 +7,12 @@ You will benefit from data conversion to SQL string, formatting, assured correct
 In this brief README we can give you a glimpse of what kind of complexity you might achieve using this package. 
 Here follows an example of a generic complex query
 
-![Complex query code example](Assets/example-complex-query-code.png "Code example of the package")
+![Complex query code example](https://github.com/Johnvanazzi/sql-fluent-builder/blob/main/Assets/example-complex-query-code.png "Code example of the package")
 
 Once the `ToSql()` method is called, it gives us the `result` string which turns out to be the following SQL
 string
 
-![Complex query sql example](Assets/example-complex-query-sql.png)
+![Complex query sql example](https://github.com/Johnvanazzi/sql-fluent-builder/blob/main/Assets/example-complex-query-sql.png)
 
 Note that the line breaks in this image is merely illustrative. The final result is the same but without line breaks.
 
