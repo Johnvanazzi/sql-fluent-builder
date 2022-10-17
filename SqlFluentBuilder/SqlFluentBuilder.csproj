@@ -15,7 +15,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageTags>sql sql-builder fluent sql-fluent-builder query-builder query</PackageTags>
         <PackageReleaseNotes>This is the first release of the package containing all possible SQL commands and clauses that you can use for writing SQL queries fluently in C#.</PackageReleaseNotes>
-        <PackageLicenseUrl>https://github.com/Johnvanazzi/sql-fluent-builder/LICENSE.txt</PackageLicenseUrl>
+        <PackageLicenseUrl>https://github.com/Johnvanazzi/sql-fluent-builder/blob/main/LICENSE.txt</PackageLicenseUrl>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     </PropertyGroup>
 
