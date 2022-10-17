@@ -9,7 +9,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Authors>Johnvanazzi</Authors>
         <Description>This is a SQL string builder containing methods allowing you to write your SQL query in a fluent manner within your code.</Description>
-        <Copyright>Copyright 2022 Johnvanazzi.</Copyright>
+        <Copyright>Copyright (c) 2022 Johnvanazzi.</Copyright>
         <PackageProjectUrl>https://github.com/Johnvanazzi/sql-fluent-builder</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Johnvanazzi/sql-fluent-builder</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
