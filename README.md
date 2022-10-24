@@ -7,12 +7,47 @@ You will benefit from data conversion to SQL string, formatting, assured correct
 In this brief README we can give you a glimpse of what kind of complexity you might achieve using this package. 
 Here follows an example of a generic complex query
 
-![Complex query code example](https://github.com/Johnvanazzi/sql-fluent-builder/blob/main/Assets/example-complex-query-code.png "Code example of the package")
+~~~c#
+var query = new Query();
+query.Select(Aggregator.Count("col1"), Aggregator.Sum("col2"), "col3")
+    .From("schema", "table1")
+    .Where(cond => cond.NotLike("col4", "Y").And
+        .Differs("col2", 1).Or
+        .Nested(sub => sub
+            .Between("col5", -1.5, 2.0).And
+            .In("col5", 'a', 'b', 'c')
+        )
+    )
+    .GroupBy("col3")
+    .Having(c => c.GreaterEqual(Aggregator.Sum("col2"), 5))
+    .OrderBy("col1", "col2")
+    .Union()
+    .Select()
+    .From("table2")
+    .InnerJoin("table3").On("table2", "col1", "table3", "col1");
+
+string result = query.ToSql();
+~~~
 
 Once the `ToSql()` method is called, it gives us the `result` string which turns out to be the following SQL
 string
 
-![Complex query sql example](https://github.com/Johnvanazzi/sql-fluent-builder/blob/main/Assets/example-complex-query-sql.png)
+~~~sql
+SELECT COUNT(col1), SUM(col2), col3
+FROM [schema].[table1]
+WHERE (col4 NOT LIKE '%Y%') AND 
+    (col2 != 1) OR (
+        (col5 BETWEEN -1.5 AND 2) AND 
+        (col5 IN ('a', 'b', 'c'))
+    )
+GROUP BY col3
+HAVING (SUM(col2) >= 5)
+ORDER BY col1, col2
+UNION
+SELECT *
+FROM [table2] 
+INNER JOIN [table3] ON [table2].[col1] = [table3].[col1]
+~~~
 
 Note that the line breaks in this image is merely illustrative. The final result is the same but without line breaks.
 
